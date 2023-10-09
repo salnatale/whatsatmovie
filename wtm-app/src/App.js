@@ -127,7 +127,11 @@ function App() {
       {movies.length > 0 && (
         <h3>Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
       )}
+      <footer className="footer">
+        © 2023 What's That Movie?.  All rights reserved.
+      </footer>
     </div >
+
   );
 }
 

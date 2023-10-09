@@ -126,3 +126,19 @@ header::after {
   width: 100px;
   /* Adjust width as necessary */
 }
+
+.footer {
+  font-size: 0.75rem;
+  /* This makes the font size smaller */
+  text-align: center;
+  /* Centers the text */
+  padding: 10px;
+  /* Adds some padding */
+  position: absolute;
+  /* Fixes the position */
+  bottom: 0;
+  /* Places it at the bottom */
+  width: 100%;
+  /* Makes sure it spans the entire width */
+  color: #333D40
+}
