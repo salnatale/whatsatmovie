@@ -95,7 +95,33 @@ app.post('/api/generate-text', async (req, res) => {
             }
         });
 
-        res.json({ success: true, movies: allMovieDetails });
+        // res.json({ success: true, movies: allMovieDetails });
+        const validMovies = allMovieDetails.filter(movie => {
+            return movie.Title && movie.Title !== "()" && movie.Actors && movie.Actors !== "N/A" && movie.imdbRating && movie.imdbRating !== "Invalid Rating";
+        });
+
+        // Check if no valid movies were found
+        if (!validMovies.length) {
+            console.log("json response:", {
+                success: false,
+                message: 'No valid movies found based on the given description.'
+            })
+            return res.json({
+                success: false,
+                message: 'No valid movies found based on the given description.'
+            });
+        }
+
+        // If there are valid movies, log the details and send the response
+        validMovies.forEach(details => {
+            if (details.Response === 'False') {
+                console.log('Error fetching movie details:', details.Error);
+            } else {
+                console.log('Valid Movie Details:', details);
+            }
+        });
+
+        res.json({ success: true, movies: validMovies });
 
     } catch (error) {
         console.error("Server Error:", error);
