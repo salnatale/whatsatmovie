@@ -143,6 +143,16 @@ header::after {
   color: #333D40
 }
 
+.footer-content {
+  display: flex;
+  align-items: center;
+  /* This will vertically align the items if they have different heights */
+  justify-content: flex-start;
+  /* This will put maximum space between the text and the donate button */
+}
+
 .donate-button {
-  transform: scale(0.5);
+  margin-left: 20px;
+  transform: scale(0.8);
+  /* Optional: to provide some spacing between the text and the button */
 }
