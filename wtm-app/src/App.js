@@ -75,6 +75,12 @@ function App() {
   };
   return (
     <div className="app">
+      <header>
+        <a href="/">
+          <img id="site-logo" src="logo.png" alt="Your Website's Logo"> </img>
+        </a>
+      </header>
+
       <h1 style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/'}>What's That Movie?</h1>
 
       <div className="input-container">
