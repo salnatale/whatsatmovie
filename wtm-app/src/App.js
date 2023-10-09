@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import logo from './logo.png';
 
 function App() {
   const [success, setSuccess] = useState(true);
@@ -77,7 +78,7 @@ function App() {
     <div className="app">
       <header>
         <a href="/">
-          <img id="logo" src="logo.png" alt="Your Website's Logo" />
+          <img src={logo} alt="Logo" />
         </a>
       </header>
 
