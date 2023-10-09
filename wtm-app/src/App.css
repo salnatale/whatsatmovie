@@ -156,3 +156,9 @@ header::after {
   transform: scale(0.8);
   /* Optional: to provide some spacing between the text and the button */
 }
+
+.donate-button input[type="image"] {
+  border: none;
+  outline: none;
+  /* This will remove the border that might appear when the button is focused */
+}
