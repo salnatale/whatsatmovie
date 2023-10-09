@@ -131,3 +131,9 @@ input {
   /* Deep Forest Green */
   border-radius: 4px;
 }
+
+.movie-details {
+  flex: 1;
+  color: #A77555;
+  /* Clay Brown */
+}
