@@ -16,6 +16,7 @@ function App() {
     setLoading(true);
 
     const apiUrl = process.env.REACT_APP_API_URL;
+    // const apiUrl = 'https://goldfish-app-78svx.ondigitalocean.app/api/generate-text'
     console.log(apiUrl);
 
     try {
