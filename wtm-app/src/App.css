@@ -119,3 +119,15 @@ h1 {
   width: 100%;
   /* or any desired width */
 }
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #A77555;
+  /* Clay Brown */
+  background-color: #E5DABD;
+  /* Sand Beige */
+  color: #064E40;
+  /* Deep Forest Green */
+  border-radius: 4px;
+}
