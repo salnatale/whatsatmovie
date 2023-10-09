@@ -1,9 +1,14 @@
 /* App.css */
+
 body {
   margin: 0;
   /* Remove default margin */
   padding: 0;
   /* Remove default padding */
+  background-color: #E5DABD;
+  /* Sand Beige */
+  color: #064E40;
+  /* Deep Forest Green */
 }
 
 .app {
@@ -28,7 +33,12 @@ body {
 input {
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid #A77555;
+  /* Clay Brown */
+  background-color: #E5DABD;
+  /* Sand Beige */
+  color: #064E40;
+  /* Deep Forest Green */
   border-radius: 4px;
 }
 
@@ -37,20 +47,28 @@ button {
   font-size: 16px;
   margin-left: 10px;
   border: none;
-  background-color: #007BFF;
-  color: white;
+  background-color: #8DAB7F;
+  /* Moss Green */
+  color: #E5DABD;
+  /* Sand Beige */
   border-radius: 4px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #064E40;
+  /* Deep Forest Green */
+  color: #E5DABD;
+  /* Sand Beige */
 }
 
 h1 {
   font-size: 2em;
   margin-bottom: 20px;
-  color: #333;
+  color: #064E40;
+  /* Deep Forest Green */
+  cursor: pointer;
+  /* As you mentioned making the title clickable */
 }
 
 .input-container {
@@ -65,6 +83,10 @@ h1 {
   margin-bottom: 20px;
   width: 80%;
   /* Adjust as needed */
+  background-color: #A3C3D9;
+  /* Sky Blue */
+  border-radius: 4px;
+  padding: 10px;
 }
 
 .movie-poster {
