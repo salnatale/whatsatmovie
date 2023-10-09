@@ -108,3 +108,21 @@ h1 {
   height: 100%;
   width: 100%;
 }
+
+/* Ensure the header doesn't collapse if it only contains floated elements */
+header::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#site-logo {
+  float: left;
+  /* Make the logo float to the left */
+  margin: 5px;
+  /* Add some space around the logo */
+  height: 50px;
+  /* Adjust based on your desired size */
+  width: auto;
+  /* Maintain aspect ratio */
+}
