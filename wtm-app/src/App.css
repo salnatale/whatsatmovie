@@ -3,10 +3,10 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #F4EEEE;
-  /* Light Gray */
-  color: #476A2E;
-  /* Dark Earthy Green */
+  background-color: #FAF3E0;
+  /* Neutral Light Beige */
+  color: #333D40;
+  /* Dark Charcoal */
 }
 
 .app {
@@ -27,12 +27,12 @@ body {
 input {
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #96C291;
-  /* Green */
-  background-color: #F4EEEE;
-  /* Light Gray */
-  color: #476A2E;
-  /* Dark Earthy Green */
+  border: 1px solid #5C9990;
+  /* Muted Teal */
+  background-color: #FAF3E0;
+  /* Neutral Light Beige */
+  color: #333D40;
+  /* Dark Charcoal */
   border-radius: 4px;
 }
 
@@ -41,26 +41,24 @@ button {
   font-size: 16px;
   margin-left: 10px;
   border: none;
-  background-color: #96C291;
-  /* Green */
-  color: #F4EEEE;
-  /* Light Gray */
+  background-color: #5C9990;
+  /* Muted Teal */
+  color: #FAF3E0;
+  /* Neutral Light Beige */
   border-radius: 4px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #476A2E;
-  /* Dark Earthy Green */
-  color: #F4EEEE;
-  /* Light Gray */
+  background-color: #333D40;
+  /* Dark Charcoal */
+  color: #FAF3E0;
+  /* Neutral Light Beige */
 }
 
 h1 {
   font-size: 2em;
   margin-bottom: 20px;
-  color: #476A2E;
-  /* Dark Earthy Green */
   cursor: pointer;
 }
 
@@ -74,8 +72,8 @@ h1 {
   align-items: flex-start;
   margin-bottom: 20px;
   width: 80%;
-  background-color: #FFDBAA;
-  /* Peach */
+  background-color: #E9DAC8;
+  /* Slightly Darker Beige */
   border-radius: 4px;
   padding: 10px;
 }
@@ -87,8 +85,8 @@ h1 {
 
 .movie-details {
   flex: 1;
-  color: #FFB7B7;
-  /* Light Pink */
+  color: #8B6B61;
+  /* Warm Brown */
 }
 
 @media (max-width: 600px) {
