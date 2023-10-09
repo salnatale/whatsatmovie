@@ -2,13 +2,11 @@
 
 body {
   margin: 0;
-  /* Remove default margin */
   padding: 0;
-  /* Remove default padding */
-  background-color: #E5DABD;
-  /* Sand Beige */
-  color: #064E40;
-  /* Deep Forest Green */
+  background-color: #F4EEEE;
+  /* Light Gray */
+  color: #476A2E;
+  /* Dark Earthy Green */
 }
 
 .app {
@@ -18,27 +16,23 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  /* Ensure at least 100% viewport height */
 }
 
 .container {
   max-height: 80vh;
-  /* Set a maximum height for the container */
   overflow-y: auto;
-  /* Enable vertical scrolling if content overflows */
   margin-top: 20px;
-  /* Add spacing at the top */
 }
 
 input {
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #A77555;
-  /* Clay Brown */
-  background-color: #E5DABD;
-  /* Sand Beige */
-  color: #064E40;
-  /* Deep Forest Green */
+  border: 1px solid #96C291;
+  /* Green */
+  background-color: #F4EEEE;
+  /* Light Gray */
+  color: #476A2E;
+  /* Dark Earthy Green */
   border-radius: 4px;
 }
 
@@ -47,28 +41,27 @@ button {
   font-size: 16px;
   margin-left: 10px;
   border: none;
-  background-color: #8DAB7F;
-  /* Moss Green */
-  color: #E5DABD;
-  /* Sand Beige */
+  background-color: #96C291;
+  /* Green */
+  color: #F4EEEE;
+  /* Light Gray */
   border-radius: 4px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #064E40;
-  /* Deep Forest Green */
-  color: #E5DABD;
-  /* Sand Beige */
+  background-color: #476A2E;
+  /* Dark Earthy Green */
+  color: #F4EEEE;
+  /* Light Gray */
 }
 
 h1 {
   font-size: 2em;
   margin-bottom: 20px;
-  color: #064E40;
-  /* Deep Forest Green */
+  color: #476A2E;
+  /* Dark Earthy Green */
   cursor: pointer;
-  /* As you mentioned making the title clickable */
 }
 
 .input-container {
@@ -79,12 +72,10 @@ h1 {
 .movie-card {
   display: flex;
   align-items: flex-start;
-  /* Aligns the top of the poster and details */
   margin-bottom: 20px;
   width: 80%;
-  /* Adjust as needed */
-  background-color: #A3C3D9;
-  /* Sky Blue */
+  background-color: #FFDBAA;
+  /* Peach */
   border-radius: 4px;
   padding: 10px;
 }
@@ -96,6 +87,8 @@ h1 {
 
 .movie-details {
   flex: 1;
+  color: #FFB7B7;
+  /* Light Pink */
 }
 
 @media (max-width: 600px) {
@@ -115,25 +108,5 @@ h1 {
   justify-content: center;
   align-items: center;
   height: 100%;
-  /* or any desired height */
   width: 100%;
-  /* or any desired width */
-}
-
-input {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #A77555;
-  /* Clay Brown */
-  background-color: #E5DABD;
-  /* Sand Beige */
-  color: #064E40;
-  /* Deep Forest Green */
-  border-radius: 4px;
-}
-
-.movie-details {
-  flex: 1;
-  color: #A77555;
-  /* Clay Brown */
 }
