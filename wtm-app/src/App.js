@@ -83,10 +83,22 @@ function App() {
         url: window.location.href,
       })
         .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing:', error));
+        .catch((error) => {
+          console.log('Error sharing:', error);
+          showFallbackShare();  // Call the fallback function on error
+        });
     } else {
       console.log('Web Share API is not supported in your browser.');
-      // Optionally, you can provide a fallback or notify the user that sharing isn't supported
+      showFallbackShare();  // Call the fallback function if the API is not supported
+    }
+  };
+  const showFallbackShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('URL copied to clipboard! Share it wherever you like.');
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+      alert('Failed to copy the URL. Please copy it manually.');
     }
   };
   return (
