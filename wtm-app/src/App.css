@@ -112,6 +112,7 @@ h1 {
 }
 
 .movies-container {
-  margin-left: 20%;
+  margin-left: 10%;
+  margin-right: 10%;
   /* Adjust this value as needed */
 }
