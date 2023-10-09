@@ -116,7 +116,7 @@ header::after {
   clear: both;
 }
 
-#site-logo {
+.site-logo {
   float: left;
   /* Make the logo float to the left */
   margin: 5px;
