@@ -88,7 +88,7 @@ function App() {
           {loading ? "Loading..." : "Enter"}
         </button>
       </div>
-      <div className="container"> {/* Add the container div */}
+      <div className="movies-container"> {/* Add the container div */}
         {success ? (
           <div className="movies">
             {movies.map(movie => (
