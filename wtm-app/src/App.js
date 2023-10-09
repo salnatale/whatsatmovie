@@ -77,7 +77,7 @@ function App() {
     <div className="app">
       <header>
         <a href="/">
-          <img id="site-logo" src="logo.png" alt="Your Website's Logo"> </img>
+          <img id="logo" src="logo.png" alt="Your Website's Logo" />
         </a>
       </header>
 
