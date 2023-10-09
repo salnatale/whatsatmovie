@@ -85,8 +85,8 @@ h1 {
 
 .movie-details {
   flex: 1;
-  color: #8B6B61;
-  /* Warm Brown */
+  color: #558556;
+  /* Darker Green */
 }
 
 @media (max-width: 600px) {
