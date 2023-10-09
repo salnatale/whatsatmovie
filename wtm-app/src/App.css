@@ -147,7 +147,7 @@ header::after {
   display: flex;
   align-items: center;
   /* This will vertically align the items if they have different heights */
-  justify-content: flex-start;
+  justify-content: center;
   /* This will put maximum space between the text and the donate button */
 }
 
