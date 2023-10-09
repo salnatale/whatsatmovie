@@ -75,27 +75,27 @@ function App() {
     );
   };
 
-  const handleShareClick = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'What\'s That Movie?',
-        text: 'Check out this awesome movie discovery app!',
-        url: window.location.href,
-      })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing:', error));
-    } else {
-      console.log('Web Share API is not supported in your browser.');
-      // Optionally, you can provide a fallback or notify the user that sharing isn't supported
-    }
-  };
+  // const handleShareClick = () => {
+  //   if (navigator.share) {
+  //     navigator.share({
+  //       title: 'What\'s That Movie?',
+  //       text: 'Check out this awesome movie discovery app!',
+  //       url: window.location.href,
+  //     })
+  //       .then(() => console.log('Successful share'))
+  //       .catch((error) => console.log('Error sharing:', error));
+  //   } else {
+  //     console.log('Web Share API is not supported in your browser.');
+  //     // Optionally, you can provide a fallback or notify the user that sharing isn't supported
+  //   }
+  // };
   return (
     <div className="app">
       <header>
         <a href="/">
           <img className="site-logo" src={logo} alt="Logo" />
         </a>
-        <i className="fas fa-share-alt" onClick={handleShareClick}></i>
+        {/* <i className="fas fa-share-alt" onClick={handleShareClick}></i> */}
       </header>
 
       <h1 style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/'}>What's That Movie?</h1>
