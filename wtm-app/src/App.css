@@ -142,3 +142,7 @@ header::after {
   /* Makes sure it spans the entire width */
   color: #333D40
 }
+
+.donate-button {
+  transform: scale(0.5);
+}
