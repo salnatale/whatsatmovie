@@ -48,10 +48,9 @@ function Header() {
                 </div>
                 <nav class="nav" id="nav">
                     <ul>
-                        <i className="fas fa-share-alt" onClick={handleShareClick}></i>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/about">About</Link></li>
-
+                        <i className="fas fa-share-alt" onClick={handleShareClick}></i>
                     </ul>
                 </nav>
             </div>

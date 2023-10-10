@@ -345,7 +345,8 @@ h1 {
 
 .nav li a {
   color: #105618;
-  font-size: 20px;
+  font-size: 24px;
+  /* font-weight: bold; */
   text-decoration: none;
 }
 
