@@ -203,3 +203,10 @@ header::after {
 .country-list li:hover {
   background-color: #f1f1f1;
 }
+
+.movie-details-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* This ensures vertical centering if your title/details have more height */
+}
