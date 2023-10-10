@@ -145,10 +145,6 @@ function App() {
           <nav class="nav" id="nav">
             <ul>
               <i className="fas fa-share-alt" onClick={handleShareClick}></i>
-              <button>Dummy</button>
-              <button>Dummy</button>
-              <button>Dummy</button>
-              <button>Dummy</button>
 
             </ul>
           </nav>
