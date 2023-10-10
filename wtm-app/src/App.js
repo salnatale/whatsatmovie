@@ -10,7 +10,7 @@ function App() {
   const [inputText, setInputText] = useState('');
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isMenuOpen, setMenuOpen] = useState(false);
+  // const [isMenuOpen, setMenuOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (!inputText.trim()) {
@@ -105,11 +105,15 @@ function App() {
       alert('Failed to copy the URL. Please copy it manually.');
     }
   };
-  function menuOnClick() {
-    document.getElementById("menu-bar").classList.toggle("change");
-    document.getElementById("nav").classList.toggle("change");
-    document.getElementById("menu-bg").classList.toggle("change-bg");
-  }
+  const menuOnClick = () => {
+    const menuBar = document.getElementById("menu-bar");
+    const nav = document.getElementById("nav");
+    const menuBg = document.getElementById("menu-bg");
+
+    if (menuBar) menuBar.classList.toggle("change");
+    if (nav) nav.classList.toggle("change");
+    if (menuBg) menuBg.classList.toggle("change-bg");
+  };
   function StreamingDropdown() {
     const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
 
@@ -154,7 +158,7 @@ function App() {
         </div>
         <i className="fas fa-share-alt" onClick={handleShareClick}></i>
         <div id="menu">
-          <div id="menu-bar" onclick="menuOnClick()">
+          <div id="menu-bar" onClick={menuOnClick}>
             <div id="bar1" class="bar"></div>
             <div id="bar2" class="bar"></div>
             <div id="bar3" class="bar"></div>
@@ -171,7 +175,7 @@ function App() {
         </div>
 
         <div class="menu-bg" id="menu-bg"></div>
-      </header>
+      </header >
       <div className='app-content'>
         <h1 style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/'}>What's That Movie?</h1>
 
