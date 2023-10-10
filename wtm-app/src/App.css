@@ -179,8 +179,7 @@ header::after {
 
 /* streaming dropdown css */
 .streaming-dropdown {
-  position: relative;
-  display: inline-block;
+  display: flex
 }
 
 .country-list {
