@@ -132,8 +132,13 @@ function HomePage() {
                                 </div>
                             </div>
                         ))}
-
+                        {/* {
+                            movies.length > 0 && (
+                                <h3 className='end-movie-remark'> Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
+                            )
+                        } */}
                     </div>
+
                 ) : (
                     <div className="error-message">
                         <h3>No movies found based on the given description. Please try again with more details.</h3>
@@ -143,12 +148,9 @@ function HomePage() {
                         </div>
                     </div>
                 )}
+
             </div>
-            {
-                movies.length > 0 && (
-                    <h3>Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
-                )
-            }
+
         </div>
     );
 }

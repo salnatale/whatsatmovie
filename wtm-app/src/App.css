@@ -291,6 +291,11 @@ h1 {
   /* This ensures vertical centering if your title/details have more height */
 }
 
+.end-movie-remark {
+  justify-content: center;
+  align-items: center;
+}
+
 /* Dropdown bar css styling */
 
 #menu {
