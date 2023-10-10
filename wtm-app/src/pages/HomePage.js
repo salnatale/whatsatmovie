@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-
-// this will not work? not correct path
-import React, { useState } from 'react';
 import './App.css';
 import logo from './logo.png';
 

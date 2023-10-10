@@ -10,7 +10,7 @@ function App() {
   const [inputText, setInputText] = useState('');
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const [isMenuOpen, setMenuOpen] = useState(false);
+
 
   const handleSubmit = async () => {
     if (!inputText.trim()) {
