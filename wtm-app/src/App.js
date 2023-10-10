@@ -17,7 +17,7 @@ function App() {
     return (
         <Router>
             <div className="app">
-                <Header logoSrc={logo} />
+                <Header />
                 <MainContent />
                 <Footer />
             </div>

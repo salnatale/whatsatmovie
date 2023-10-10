@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';  // Importing the Link component for navigation
+import logo from '../logo.png';
 
 const menuOnClick = () => {
     const menuBar = document.getElementById("menu-bar");
@@ -36,7 +37,7 @@ const showFallbackShare = async () => {
         alert('Failed to copy the URL. Please copy it manually.');
     }
 };
-function Header({ logoSrc }) {
+function Header() {
     return (
         <header className='app-header'>
             <div id="menu">
@@ -75,7 +76,7 @@ function Header({ logoSrc }) {
             We'll take our leave and go</span> */}
             </div>
             <a href="/">
-                <img className="site-logo" src={logoSrc} alt="Logo" />
+                <img className="site-logo" src={logo} alt="Logo" />
             </a>
         </header >
     );
