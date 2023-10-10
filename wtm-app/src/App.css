@@ -178,9 +178,11 @@ header::after {
 }
 
 /* streaming dropdown css */
-.streaming-dropdown {
+
+
+/* .streaming-dropdown {
   display: flex
-}
+} */
 
 .country-list {
   position: absolute;
@@ -203,9 +205,9 @@ header::after {
   background-color: #f1f1f1;
 }
 
-.movie-title-text {
+/* .movie-title-text {
   display: flex
-}
+} */
 
 .movie-title-section {
   display: flex;
