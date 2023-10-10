@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import MainContent from './components/MainContent';
+import Header from './components/Header.js';
+import Footer from './components/Footer.js';
+import MainContent from './components/MainContent.js';
 
 import './App.css';
 import logo from './logo.png';
@@ -9,7 +9,6 @@ import logo from './logo.png';
 
 function App() {
     return (
-
         <div className="app">
             <Header logoSrc={logo} />
             <MainContent />
