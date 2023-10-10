@@ -119,7 +119,7 @@ function HomePage() {
                                         <div className='movie-title-text'>
                                             <h2>{movie.Title} ({movie.Year})</h2>
                                         </div>
-                                        /* <StreamingDropdown /> */
+                                        {/* <StreamingDropdown />  */}
                                     </div>
                                     <p>{movie.Plot}</p>
                                     <p>Actors: {movie.Actors}</p>
