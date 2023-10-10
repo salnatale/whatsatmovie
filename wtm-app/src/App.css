@@ -176,6 +176,20 @@ h1 {
   }
 }
 
+.sliding-text span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.sliding-text span:nth-child(2) {
+  animation-delay: 1s;
+  /* Adjust the delay as required */
+}
+
+.sliding-text span:nth-child(3) {
+  animation-delay: 2s;
+  /* Adjust the delay as required */
+}
+
 /* Adjust as necessary
 header::after {
   content: "";
