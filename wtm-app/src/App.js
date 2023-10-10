@@ -146,12 +146,12 @@ function App() {
           <div className="movies">
             {movies.map(movie => (
               <div key={movie.imdbID} className="movie-card">
-                <div className="movie-title-section">
-                  <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
-                  <StreamingDropdown />
-                </div>
+                <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
                 <div className="movie-details">
-                  <h2>{movie.Title} ({movie.Year})</h2>
+                  <div className="movie-title-section">
+                    <h2>{movie.Title} ({movie.Year})</h2>
+                    <StreamingDropdown />
+                  </div>
                   <p>{movie.Plot}</p>
                   <p>Actors: {movie.Actors}</p>
                   <div className="movie-rating">
