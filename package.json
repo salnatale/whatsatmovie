@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "react-router-dom": "^6.16.0"
+    "build": "^0.1.4",
+    "npm": "^10.2.0",
+    "react-router-dom": "^5.3.4",
+    "run": "^1.4.0"
   }
 }
