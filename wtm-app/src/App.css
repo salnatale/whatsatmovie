@@ -152,6 +152,7 @@ h1 {
 .sliding-text span {
   display: inline-block;
   position: absolute;
+  olor: #5C9990;
   left: 0;
   animation: slideText 15s linear infinite;
   /* Adjust 15s for speed */
