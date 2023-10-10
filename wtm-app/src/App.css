@@ -190,16 +190,16 @@ h1 {
   /* Adjust the delay as required */
 }
 
-.sliding-text span:nth-child(1) {
+.sliding-text span:nth-child(4) {
   animation-delay: 3s;
 }
 
-.sliding-text span:nth-child(2) {
+.sliding-text span:nth-child(5) {
   animation-delay: 4s;
   /* Adjust the delay as required */
 }
 
-.sliding-text span:nth-child(3) {
+.sliding-text span:nth-child(6) {
   animation-delay: 5s;
   /* Adjust the delay as required */
 }
