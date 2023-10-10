@@ -308,7 +308,7 @@ h1 {
 .bar {
   height: 5px;
   width: 100%;
-  background-color: #DC052D;
+  background-color: #E9DAC8;
   display: block;
   border-radius: 5px;
   transition: 0.3s ease;
@@ -337,7 +337,7 @@ h1 {
 }
 
 .nav li a {
-  color: white;
+  color: #105618;
   font-size: 20px;
   text-decoration: none;
 }
@@ -356,7 +356,7 @@ h1 {
   width: 0;
   height: 0;
   margin: 30px 0 20px 20px;
-  background: radial-gradient(circle, #DC052D, #DC052D);
+  background: radial-gradient(circle, #E9DAC8, #E9DAC8);
   border-radius: 50%;
   transition: 0.3s ease;
 }
@@ -366,7 +366,7 @@ h1 {
 }
 
 .change .bar {
-  background-color: white;
+  background-color: #105618;
 }
 
 .change #bar1 {
