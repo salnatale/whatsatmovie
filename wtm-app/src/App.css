@@ -166,43 +166,16 @@ h1 {
 
 @keyframes slideText {
   0% {
-    left: 100%;
+    left: 0%;
   }
 
   100% {
-    left: -50%;
+    left: 100%;
     /* Adjusted to -50% so the animation completes halfway */
   }
 }
 
 
-.sliding-text span:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.sliding-text span:nth-child(2) {
-  animation-delay: 1s;
-  /* Adjust the delay as required */
-}
-
-.sliding-text span:nth-child(3) {
-  animation-delay: 2s;
-  /* Adjust the delay as required */
-}
-
-.sliding-text span:nth-child(4) {
-  animation-delay: 3s;
-}
-
-.sliding-text span:nth-child(5) {
-  animation-delay: 4s;
-  /* Adjust the delay as required */
-}
-
-.sliding-text span:nth-child(6) {
-  animation-delay: 5s;
-  /* Adjust the delay as required */
-}
 
 /* Adjust as necessary
 header::after {
