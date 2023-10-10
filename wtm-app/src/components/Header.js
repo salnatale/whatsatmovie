@@ -59,7 +59,7 @@ function Header() {
             <div class="menu-bg" id="menu-bg"></div>
 
             <div className='sliding-text'>
-                {/* <span>There once was a ship that put to sea
+                <span>There once was a ship that put to sea
             The name of the ship was the Billy O' Tea
             The winds blew up, her bow dipped down
             Oh blow, my bully boys, blow ...  Soon may the
@@ -73,7 +73,7 @@ function Header() {
             He'd take that whale in tow ... Soon may the Wellerman come
             To bring us sugar and tea and rum
             One day, when the tonguing is done
-            We'll take our leave and go</span> */}
+            We'll take our leave and go</span>
             </div>
             <a href="/">
                 <img className="site-logo" src={logo} alt="Logo" />
