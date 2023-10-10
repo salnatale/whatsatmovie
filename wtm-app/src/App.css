@@ -156,9 +156,9 @@ h1 {
   display: inline-block;
   color: #5C9990;
   left: 0;
-  /* animation: slideText 15s linear infinite; */
-  animation: none
-    /* Adjust 15s for speed */
+  animation: slideText 15s linear infinite;
+  /* animation: none */
+  /* Adjust 15s for speed */
 }
 
 @keyframes slideText {
