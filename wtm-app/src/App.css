@@ -178,27 +178,6 @@ h1 {
 
 
 
-/* Adjust as necessary
-header::after {
-  content: "";
-  display: table;
-  clear: both;
-} */
-
-/* header {
-    position: relative;
-    /* other styles... 
-}
-
-*/
-.fas.fa-bars {
-  font-size: 24px;
-  /* adjust size */
-  color: #105618;
-  /* adjust color */
-  /* ... other styles ... */
-}
-
 .fas.fa-share-alt {
   display: inline-block;
   padding: 8px 15px;
