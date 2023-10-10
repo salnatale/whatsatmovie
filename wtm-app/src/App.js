@@ -8,6 +8,7 @@ function App() {
   const [inputText, setInputText] = useState('');
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (!inputText.trim()) {
@@ -92,6 +93,9 @@ function App() {
       showFallbackShare();  // Call the fallback function if the API is not supported
     }
   };
+  const handleMenuToggle = () => {
+    setMenuOpen(prevState => !prevState);
+  };
   const showFallbackShare = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
@@ -119,6 +123,7 @@ function App() {
       </div>
     );
   }
+
   return (
     <div className="app">
       <header className='app-header'>
@@ -141,6 +146,13 @@ function App() {
             To bring us sugar and tea and rum
             One day, when the tonguing is done
             We'll take our leave and go</span>
+        </div>
+        <i className="fas fa-bars" onClick={handleMenuToggle}></i>
+        <div className={`menu ${isMenuOpen ? 'open' : 'closed'}`}>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/blog">Blog</a>
+          <a href="https://externalwebsite.com">External Site</a>
         </div>
         <i className="fas fa-share-alt" onClick={handleShareClick}></i>
       </header>

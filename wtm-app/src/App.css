@@ -191,6 +191,13 @@ header::after {
 }
 
 */
+.fas.fa-bars {
+  font-size: 24px;
+  /* adjust size */
+  color: #105618;
+  /* adjust color */
+  /* ... other styles ... */
+}
 
 .fas.fa-share-alt {
   display: inline-block;
