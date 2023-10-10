@@ -161,10 +161,11 @@ function App() {
           </div>
           <nav class="nav" id="nav">
             <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
-              <li><a href="#">Blog</a></li>
+              <button>Dummy</button>
+              <button>Dummy</button>
+              <button>Dummy</button>
+              <button>Dummy</button>
+
             </ul>
           </nav>
         </div>
