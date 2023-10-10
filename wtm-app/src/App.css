@@ -204,6 +204,10 @@ header::after {
   background-color: #f1f1f1;
 }
 
+.movie-title-text {
+  display: flex
+}
+
 .movie-details-section {
   display: flex;
   align-items: center;
