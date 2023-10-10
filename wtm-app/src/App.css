@@ -155,10 +155,10 @@ h1 {
   display: inline-block;
   font-size: 24px;
   font-weight: bold;
-
   color: #105618;
-
+  margin-right: 50px;
   left: 0;
+  position: absolute;
   animation: slideText 15s linear infinite;
   /* animation: none */
   /* Adjust 15s for speed */
@@ -166,11 +166,13 @@ h1 {
 
 @keyframes slideText {
   0% {
-    left: 100%;
+    left: calc(100% + 50px);
+    /* Include the added margin space */
   }
 
   100% {
-    left: -100%;
+    left: calc(-100% - 50px);
+    /* Include the added margin space */
   }
 }
 
