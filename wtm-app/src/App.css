@@ -329,11 +329,13 @@ h1 {
 
 .nav ul {
   padding: 0 22px;
+  display: block;
 }
 
 .nav li {
   list-style: none;
   padding: 12px 0;
+  display: block;
 }
 
 .nav li a {
