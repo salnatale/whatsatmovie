@@ -159,7 +159,7 @@ h1 {
   margin-right: 50px;
   left: 0;
   position: absolute;
-  animation: slideText 15s linear infinite;
+  animation: slideText 45s linear infinite;
   /* animation: none */
   /* Adjust 15s for speed */
 }
