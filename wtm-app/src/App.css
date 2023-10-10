@@ -293,6 +293,7 @@ h1 {
 }
 
 /* Dropdown bar css styling */
+
 #menu {
   z-index: 2;
 }
@@ -300,8 +301,9 @@ h1 {
 #menu-bar {
   width: 45px;
   height: 40px;
-  margin: 30px 20px 20px 0;
-  /* Adjusted margin to place it on the right */
+  /* margin: 30px 0 20px 20px; */
+  margin: 0 20px;
+  /* test */
   cursor: pointer;
 }
 
@@ -325,17 +327,17 @@ h1 {
 .nav {
   transition: 0.3s ease;
   display: none;
-  right: 45px;
-  /* Adjusted to display to the left of the hamburger icon */
 }
 
 .nav ul {
   padding: 0 22px;
+  display: block;
 }
 
 .nav li {
   list-style: none;
   padding: 12px 0;
+  display: block;
 }
 
 .nav li a {
@@ -357,13 +359,10 @@ h1 {
   z-index: 1;
   width: 0;
   height: 0;
-  margin: 30px 20px 20px 0;
-  /* Adjusted margin to place it on the right */
+  margin: 30px 0 20px 20px;
   background: radial-gradient(circle, #DC052D, #DC052D);
   border-radius: 50%;
   transition: 0.3s ease;
-  right: 0;
-  /* Added to ensure it expands to the left */
 }
 
 .change {
@@ -375,8 +374,7 @@ h1 {
 }
 
 .change #bar1 {
-  transform: translateY(4px) rotateZ(45deg);
-  /* Adjusted rotation */
+  transform: translateY(4px) rotateZ(-45deg);
 }
 
 .change #bar2 {
@@ -384,13 +382,11 @@ h1 {
 }
 
 .change #bar3 {
-  transform: translateY(-6px) rotateZ(-45deg);
-  /* Adjusted rotation */
+  transform: translateY(-6px) rotateZ(45deg);
 }
 
 .change-bg {
   width: 520px;
   height: 460px;
-  transform: translate(60%, -30%);
-  /* Adjusted to expand to the left */
+  transform: translate(-60%, -30%);
 }

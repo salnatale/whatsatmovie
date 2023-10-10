@@ -136,9 +136,26 @@ function App() {
   return (
     <div className="app">
       <header className='app-header'>
-        <a href="/">
-          <img className="site-logo" src={logo} alt="Logo" />
-        </a>
+        <div id="menu">
+          <div id="menu-bar" onClick={menuOnClick}>
+            <div id="bar1" class="bar"></div>
+            <div id="bar2" class="bar"></div>
+            <div id="bar3" class="bar"></div>
+          </div>
+          <nav class="nav" id="nav">
+            <ul>
+              <i className="fas fa-share-alt" onClick={handleShareClick}></i>
+              <button>Dummy</button>
+              <button>Dummy</button>
+              <button>Dummy</button>
+              <button>Dummy</button>
+
+            </ul>
+          </nav>
+        </div>
+
+        <div class="menu-bg" id="menu-bg"></div>
+
         <div className='sliding-text'>
           {/* <span>There once was a ship that put to sea
             The name of the ship was the Billy O' Tea
@@ -156,25 +173,9 @@ function App() {
             One day, when the tonguing is done
             We'll take our leave and go</span> */}
         </div>
-        <i className="fas fa-share-alt" onClick={handleShareClick}></i>
-        <div id="menu">
-          <div id="menu-bar" onClick={menuOnClick}>
-            <div id="bar1" class="bar"></div>
-            <div id="bar2" class="bar"></div>
-            <div id="bar3" class="bar"></div>
-          </div>
-          <nav class="nav" id="nav">
-            <ul>
-              <button>Dummy</button>
-              <button>Dummy</button>
-              <button>Dummy</button>
-              <button>Dummy</button>
-
-            </ul>
-          </nav>
-        </div>
-
-        <div class="menu-bg" id="menu-bg"></div>
+        <a href="/">
+          <img className="site-logo" src={logo} alt="Logo" />
+        </a>
       </header >
       <div className='app-content'>
         <h1 style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/'}>What's That Movie?</h1>
