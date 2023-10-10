@@ -301,7 +301,9 @@ h1 {
 #menu-bar {
   width: 45px;
   height: 40px;
-  margin: 30px 0 20px 20px;
+  /* margin: 30px 0 20px 20px; */
+  margin: 0 20px;
+  /* test */
   cursor: pointer;
 }
 
@@ -350,9 +352,7 @@ h1 {
 
 .menu-bg,
 #menu {
-  top: 0;
-  left: 0;
-  position: absolute;
+  position: relative;
 }
 
 .menu-bg {
