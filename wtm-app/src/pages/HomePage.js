@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import '../App.css';
 
 
 function HomePage() {
@@ -71,6 +71,24 @@ function HomePage() {
                 {Array(emptyStars).fill().map((_, i) => (
                     <i key={i + fullStars} className="fa fa-star-o" />
                 ))}
+            </div>
+        );
+    };
+    function StreamingDropdown() {
+        const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
+
+        const countries = ["USA", "Canada", "UK", "Australia", "India"]; // Example country list, modify as needed
+
+        return (
+            <div className="streaming-dropdown">
+                <button onClick={() => setIsOpen(!isOpen)}>Where to watch ▼ </button>
+                {isOpen && (
+                    <ul className="country-list">
+                        {countries.map(country => (
+                            <li key={country}>{country}</li>
+                        ))}
+                    </ul>
+                )}
             </div>
         );
     };
