@@ -161,23 +161,60 @@ header::after {
 */
 
 .fas.fa-share-alt {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  display: inline-block;
+  padding: 8px 15px;
+  /* Padding around the text */
+  font-size: 16px;
+  /* Adjust font size */
+  color: #fff;
+  /* Text color */
+  background-color: #007BFF;
+  /* Background color */
+  border: none;
+  /* Remove default borders */
+  border-radius: 5px;
+  /* Rounded corners */
   cursor: pointer;
-  font-size: 24px;
-  /* adjust size as needed */
+  /* Hand cursor on hover */
+  transition: background-color 0.3s ease;
+  /* Smooth transition for hover effect */
+}
+
+.share-button:hover {
+  background-color: #0056b3;
+  /* Darker shade on hover for effect */
+}
+
+.share-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+  /* Accessibility: Indicate focus with a box shadow */
 }
 
 .site-logo {
-  position: absolute;
-  /* This takes the logo out of the normal flow */
-  top: 0px;
-  /* This positions the logo 10 pixels from the top */
-  left: 10px;
-  /* This positions the logo 10 pixels from the left */
-  width: 100px;
-  /* Adjust width as necessary */
+  display: block;
+  max-width: 150px;
+  /* Adjust based on desired maximum width */
+  height: auto;
+  /* Maintain aspect ratio */
+  margin: 0;
+  /* Remove any default margins */
+  padding: 10px 0;
+  /* Some padding on top and bottom, if desired */
+  border: none;
+  /* Remove borders, if any */
+  transition: opacity 0.3s ease;
+  /* Smooth transition for hover effect */
+}
+
+.site-logo:hover {
+  opacity: 0.8;
+  /* Slight fade on hover for a subtle effect */
+}
+
+.site-logo:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 /* End Header CSS Content */
