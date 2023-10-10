@@ -301,9 +301,7 @@ h1 {
 #menu-bar {
   width: 45px;
   height: 40px;
-  /* margin: 30px 0 20px 20px; */
-  margin: 0 20px;
-  /* test */
+  margin: 30px 0 20px 20px;
   cursor: pointer;
 }
 
@@ -331,13 +329,11 @@ h1 {
 
 .nav ul {
   padding: 0 22px;
-  display: block;
 }
 
 .nav li {
   list-style: none;
   padding: 12px 0;
-  display: block;
 }
 
 .nav li a {
