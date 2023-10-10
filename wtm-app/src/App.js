@@ -121,10 +121,15 @@ function App() {
   }
   return (
     <div className="app">
-      <header>
+      <header className='app-header'>
         <a href="/">
           <img className="site-logo" src={logo} alt="Logo" />
         </a>
+        <div className='sliding-text'>
+          <span>Text 1</span>
+          <span>Text 2</span>
+          <span>Text 3</span>
+        </div>
         <i className="fas fa-share-alt" onClick={handleShareClick}></i>
       </header>
 

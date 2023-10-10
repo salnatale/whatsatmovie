@@ -109,11 +109,64 @@ h1 {
   width: 100%;
 }
 
+/* Header content CSS */
 /* Ensure the header doesn't collapse if it only contains floated elements */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  /* Adjust as necessary */
+}
+
+.sliding-text {
+  overflow: hidden;
+  white-space: nowrap;
+  /* Prevent text from breaking to the next line */
+  position: relative;
+  width: 200px;
+  /* Adjust based on the width you want for the sliding area */
+}
+
+.sliding-text span {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  animation: slideText 15s linear infinite;
+  /* Adjust 15s for speed */
+}
+
+@keyframes slideText {
+  0% {
+    left: 100%;
+  }
+
+  100% {
+    left: -100%;
+  }
+}
+
+/* Adjust as necessary
 header::after {
   content: "";
   display: table;
   clear: both;
+} */
+
+/* header {
+    position: relative;
+    /* other styles... 
+}
+
+*/
+
+.fas.fa-share-alt {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  /* adjust size as needed */
 }
 
 .site-logo {
@@ -126,6 +179,9 @@ header::after {
   width: 100px;
   /* Adjust width as necessary */
 }
+
+/* End Header CSS Content */
+
 
 .footer {
   font-size: 0.75rem;
@@ -163,19 +219,6 @@ header::after {
   /* This will remove the border that might appear when the button is focused */
 }
 
-/* header {
-    position: relative;
-    /* other styles... 
-}
-*/
-.fas.fa-share-alt {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 24px;
-  /* adjust size as needed */
-}
 
 /* streaming dropdown css */
 
