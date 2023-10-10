@@ -129,6 +129,9 @@ function App() {
           <span>Text 1</span>
           <span>Text 2</span>
           <span>Text 3</span>
+          <span>Text 1</span>
+          <span>Text 2</span>
+          <span>Text 3</span>
         </div>
         <i className="fas fa-share-alt" onClick={handleShareClick}></i>
       </header>
