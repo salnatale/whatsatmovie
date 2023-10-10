@@ -308,7 +308,7 @@ h1 {
 .bar {
   height: 5px;
   width: 100%;
-  background-color: #E9DAC8;
+  background-color: #105618;
   display: block;
   border-radius: 5px;
   transition: 0.3s ease;
@@ -348,8 +348,9 @@ h1 {
 
 .menu-bg,
 #menu {
-  top: 0;
-  left: 0;
+  top: 50%;
+  margin-top: -22.5px;
+  left: 20px;
   position: absolute;
 }
 
