@@ -108,7 +108,7 @@ function App() {
 
     return (
       <div className="streaming-dropdown">
-        <button onClick={() => setIsOpen(!isOpen)}>Find Streaming Service</button>
+        <button onClick={() => setIsOpen(!isOpen)}>Where to watch ▼ </button>
         {isOpen && (
           <ul className="country-list">
             {countries.map(country => (
