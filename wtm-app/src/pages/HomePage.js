@@ -74,24 +74,26 @@ function HomePage() {
             </div>
         );
     };
-    function StreamingDropdown() {
-        const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
 
-        const countries = ["USA", "Canada", "UK", "Australia", "India"]; // Example country list, modify as needed
+    // comment out streaming dropdown until figure out suitable api solution
+    // function StreamingDropdown() {
+    //     const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
 
-        return (
-            <div className="streaming-dropdown">
-                <button onClick={() => setIsOpen(!isOpen)}>Where to watch ▼ </button>
-                {isOpen && (
-                    <ul className="country-list">
-                        {countries.map(country => (
-                            <li key={country}>{country}</li>
-                        ))}
-                    </ul>
-                )}
-            </div>
-        );
-    };
+    //     const countries = ["USA", "Canada", "UK", "Australia", "India"]; // Example country list, modify as needed
+
+    //     return (
+    //         <div className="streaming-dropdown">
+    //             <button onClick={() => setIsOpen(!isOpen)}>Where to watch ▼ </button>
+    //             {isOpen && (
+    //                 <ul className="country-list">
+    //                     {countries.map(country => (
+    //                         <li key={country}>{country}</li>
+    //                     ))}
+    //                 </ul>
+    //             )}
+    //         </div>
+    //     );
+    // };
 
     return (
         <div className='app-content'>
