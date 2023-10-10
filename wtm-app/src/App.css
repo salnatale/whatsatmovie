@@ -145,6 +145,8 @@ h1 {
   white-space: nowrap;
   /* Prevent text from breaking to the next line */
   position: relative;
+  height: 30px;
+  /* Adjust based on your requirements */
   width: 200px;
   /* Adjust based on the width you want for the sliding area */
   background-color: black;
@@ -152,7 +154,6 @@ h1 {
 
 .sliding-text span {
   display: inline-block;
-  position: absolute;
   color: #5C9990;
   left: 0;
   /* animation: slideText 15s linear infinite; */
