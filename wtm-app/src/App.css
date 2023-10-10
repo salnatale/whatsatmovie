@@ -150,9 +150,9 @@ h1 {
 }
 
 .sliding-text span {
-  /* display: inline-block;
+  display: inline-block;
   position: absolute;
-  left: 0; */
+  left: 0;
   animation: slideText 15s linear infinite;
   /* Adjust 15s for speed */
 }
