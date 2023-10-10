@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import HomePage from '../pages/HomePage.js';
-import AboutPage from '../pages/AboutPage.js';
+import HomePage from '../pages/HomePage';
+import AboutPage from '../pages/AboutPage';
 
 function MainContent() {
     return (
