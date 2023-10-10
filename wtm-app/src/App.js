@@ -101,6 +101,24 @@ function App() {
       alert('Failed to copy the URL. Please copy it manually.');
     }
   };
+  function StreamingDropdown() {
+    const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
+
+    const countries = ["USA", "Canada", "UK", "Australia", "India"]; // Example country list, modify as needed
+
+    return (
+      <div className="streaming-dropdown">
+        <button onClick={() => setIsOpen(!isOpen)}>Find Streaming Service</button>
+        {isOpen && (
+          <ul className="country-list">
+            {countries.map(country => (
+              <li key={country}>{country}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  }
   return (
     <div className="app">
       <header>
@@ -128,7 +146,10 @@ function App() {
           <div className="movies">
             {movies.map(movie => (
               <div key={movie.imdbID} className="movie-card">
-                <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
+                <div className="movie-title-section">
+                  <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
+                  <StreamingDropdown />
+                </div>
                 <div className="movie-details">
                   <h2>{movie.Title} ({movie.Year})</h2>
                   <p>{movie.Plot}</p>
