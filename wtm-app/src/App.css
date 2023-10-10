@@ -129,7 +129,7 @@ h1 {
 
 /* Ensure the header doesn't collapse if it only contains floated elements */
 .app-header {
-  width: 95%;
+  width: 75%;
   display: flex;
   justify-content: space-between;
   align-items: center;
