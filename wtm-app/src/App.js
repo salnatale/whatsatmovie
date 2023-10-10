@@ -105,8 +105,10 @@ function App() {
       alert('Failed to copy the URL. Please copy it manually.');
     }
   };
-  const menuOnClick = () => {
-    setMenuOpen(prevState => !prevState);
+  function menuOnClick() {
+    document.getElementById("menu-bar").classList.toggle("change");
+    document.getElementById("nav").classList.toggle("change");
+    document.getElementById("menu-bg").classList.toggle("change-bg");
   }
   function StreamingDropdown() {
     const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
@@ -152,18 +154,21 @@ function App() {
         </div>
         <i className="fas fa-share-alt" onClick={handleShareClick}></i>
         <div id="menu">
-          <div id="menu-bar" className={isMenuOpen ? "change" : ""} onClick={menuOnClick}></div>
-          <div id="nav" className={isMenuOpen ? "change" : ""}></div>
-          <div id="menu-bg" className={isMenuOpen ? "change-bg" : ""}></div>
+          <div id="menu-bar" onclick="menuOnClick()">
+            <div id="bar1" class="bar"></div>
+            <div id="bar2" class="bar"></div>
+            <div id="bar3" class="bar"></div>
+          </div>
           <nav class="nav" id="nav">
             <ul>
-              <button>Dummy</button>
-              <button>Dummy</button>
-              <button>Dummy</button>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Blog</a></li>
             </ul>
           </nav>
-
         </div>
+
         <div class="menu-bg" id="menu-bg"></div>
       </header>
       <div className='app-content'>

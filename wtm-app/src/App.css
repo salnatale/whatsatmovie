@@ -301,8 +301,7 @@ h1 {
 #menu-bar {
   width: 45px;
   height: 40px;
-  margin: 30px 20px 20px 0;
-  /* Adjusted margin */
+  margin: 30px 0 20px 20px;
   cursor: pointer;
 }
 
@@ -329,8 +328,7 @@ h1 {
 }
 
 .nav ul {
-  padding: 0 20px 0 22px;
-  /* Adjusted padding */
+  padding: 0 22px;
 }
 
 .nav li {
@@ -351,10 +349,7 @@ h1 {
 .menu-bg,
 #menu {
   top: 0;
-  left: auto;
-  /* Reset the left positioning */
-  right: 0;
-  /* Set right positioning to 0 */
+  left: 0;
   position: absolute;
 }
 
@@ -362,8 +357,7 @@ h1 {
   z-index: 1;
   width: 0;
   height: 0;
-  margin: 30px 20px 20px 0;
-  /* Adjusted margin */
+  margin: 30px 0 20px 20px;
   background: radial-gradient(circle, #DC052D, #DC052D);
   border-radius: 50%;
   transition: 0.3s ease;
@@ -378,8 +372,7 @@ h1 {
 }
 
 .change #bar1 {
-  transform: translateY(4px) rotateZ(45deg);
-  /* Adjusted rotation */
+  transform: translateY(4px) rotateZ(-45deg);
 }
 
 .change #bar2 {
@@ -387,13 +380,11 @@ h1 {
 }
 
 .change #bar3 {
-  transform: translateY(-6px) rotateZ(-45deg);
-  /* Adjusted rotation */
+  transform: translateY(-6px) rotateZ(45deg);
 }
 
 .change-bg {
   width: 520px;
   height: 460px;
-  transform: translate(60%, -30%);
-  /* Adjusted transform */
+  transform: translate(-60%, -30%);
 }
