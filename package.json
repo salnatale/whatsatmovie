@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "build": "^0.1.4",
+    "npm": "^10.2.0",
+    "react-router-dom": "^5.3.4",
+    "run": "^1.4.0"
+  }
+}
