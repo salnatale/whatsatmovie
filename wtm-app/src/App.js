@@ -132,59 +132,60 @@ function App() {
         </div>
         <i className="fas fa-share-alt" onClick={handleShareClick}></i>
       </header>
+      <div className='app-content'>
+        <h1 style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/'}>What's That Movie?</h1>
 
-      <h1 style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/'}>What's That Movie?</h1>
-
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Describe the Movie..."
-          value={inputText}
-          onChange={e => setInputText(e.target.value)}
-        />
-        <button onClick={handleSubmit} disabled={loading}>
-          {loading ? "Loading..." : "Enter"}
-        </button>
-      </div>
-      <div className="container"> {/* Add the container div */}
-        {success ? (
-          <div className="movies">
-            {movies.map(movie => (
-              <div key={movie.imdbID} className="movie-card">
-                <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
-                <div className="movie-details">
-                  <div className="movie-title-section">
-                    <div className='movie-title-text'>
-                      <h2>{movie.Title} ({movie.Year})</h2>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Describe the Movie..."
+            value={inputText}
+            onChange={e => setInputText(e.target.value)}
+          />
+          <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Loading..." : "Enter"}
+          </button>
+        </div>
+        <div className="container"> {/* Add the container div */}
+          {success ? (
+            <div className="movies">
+              {movies.map(movie => (
+                <div key={movie.imdbID} className="movie-card">
+                  <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
+                  <div className="movie-details">
+                    <div className="movie-title-section">
+                      <div className='movie-title-text'>
+                        <h2>{movie.Title} ({movie.Year})</h2>
+                      </div>
+                      <StreamingDropdown />
                     </div>
-                    <StreamingDropdown />
-                  </div>
-                  <p>{movie.Plot}</p>
-                  <p>Actors: {movie.Actors}</p>
-                  <div className="movie-rating">
-                    {renderStars(Number(movie.imdbRating))}
-                    <span> {movie.imdbRating}</span>
+                    <p>{movie.Plot}</p>
+                    <p>Actors: {movie.Actors}</p>
+                    <div className="movie-rating">
+                      {renderStars(Number(movie.imdbRating))}
+                      <span> {movie.imdbRating}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
-          </div>
-        ) : (
-          <div className="error-message">
-            <h3>No movies found based on the given description. Please try again with more details.</h3>
-            {/* Optional retry button */}
-            <div className="retry-container">
-              <button onClick={handleRetry}>Retry</button>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="error-message">
+              <h3>No movies found based on the given description. Please try again with more details.</h3>
+              {/* Optional retry button */}
+              <div className="retry-container">
+                <button onClick={handleRetry}>Retry</button>
+              </div>
+            </div>
+          )}
+        </div>
+        {
+          movies.length > 0 && (
+            <h3>Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
+          )
+        }
       </div>
-      {
-        movies.length > 0 && (
-          <h3>Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
-        )
-      }
       <footer className="footer">
         <div className="footer-content">
           © 2023 What's That Movie?.  All rights reserved.
