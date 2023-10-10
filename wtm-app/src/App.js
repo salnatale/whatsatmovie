@@ -4,13 +4,10 @@ import Footer from './components/Footer.js';
 import MainContent from './components/MainContent.js';
 
 import {
-    BrowserRouter as Router,
-    Route,
-    Switch
+    BrowserRouter as Router
 } from 'react-router-dom';
 
 import './App.css';
-import logo from './logo.png';
 
 
 function App() {
