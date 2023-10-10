@@ -8,7 +8,6 @@ function App() {
   const [inputText, setInputText] = useState('');
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const handleSubmit = async () => {
     if (!inputText.trim()) {
       return; // Exit early if input is empty or whitespace only
@@ -101,60 +100,104 @@ function App() {
       alert('Failed to copy the URL. Please copy it manually.');
     }
   };
+  function StreamingDropdown() {
+    const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
+
+    const countries = ["USA", "Canada", "UK", "Australia", "India"]; // Example country list, modify as needed
+
+    return (
+      <div className="streaming-dropdown">
+        <button onClick={() => setIsOpen(!isOpen)}>Where to watch ▼ </button>
+        {isOpen && (
+          <ul className="country-list">
+            {countries.map(country => (
+              <li key={country}>{country}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="app">
-      <header>
+      <header className='app-header'>
         <a href="/">
           <img className="site-logo" src={logo} alt="Logo" />
         </a>
+        <div className='sliding-text'>
+          <span>There once was a ship that put to sea
+            The name of the ship was the Billy O' Tea
+            The winds blew up, her bow dipped down
+            Oh blow, my bully boys, blow ...  Soon may the
+            Wellerman come
+            To bring us sugar and tea and rum
+            One day, when the tonguing is done
+            We'll take our leave and go ...
+            She'd not been two weeks from shore
+            When down on her a right whale bore
+            The captain called all hands and swore
+            He'd take that whale in tow ... Soon may the Wellerman come
+            To bring us sugar and tea and rum
+            One day, when the tonguing is done
+            We'll take our leave and go</span>
+        </div>
         <i className="fas fa-share-alt" onClick={handleShareClick}></i>
       </header>
+      <div className='app-content'>
+        <h1 style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/'}>What's That Movie?</h1>
 
-      <h1 style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/'}>What's That Movie?</h1>
-
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Describe the Movie..."
-          value={inputText}
-          onChange={e => setInputText(e.target.value)}
-        />
-        <button onClick={handleSubmit} disabled={loading}>
-          {loading ? "Loading..." : "Enter"}
-        </button>
-      </div>
-      <div className="container"> {/* Add the container div */}
-        {success ? (
-          <div className="movies">
-            {movies.map(movie => (
-              <div key={movie.imdbID} className="movie-card">
-                <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
-                <div className="movie-details">
-                  <h2>{movie.Title} ({movie.Year})</h2>
-                  <p>{movie.Plot}</p>
-                  <p>Actors: {movie.Actors}</p>
-                  <div className="movie-rating">
-                    {renderStars(Number(movie.imdbRating))}
-                    <span> {movie.imdbRating}</span>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Describe the Movie..."
+            value={inputText}
+            onChange={e => setInputText(e.target.value)}
+          />
+          <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Loading..." : "Enter"}
+          </button>
+        </div>
+        <div className="container"> {/* Add the container div */}
+          {success ? (
+            <div className="movies">
+              {movies.map(movie => (
+                <div key={movie.imdbID} className="movie-card">
+                  <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
+                  <div className="movie-details">
+                    <div className="movie-title-section">
+                      <div className='movie-title-text'>
+                        <h2>{movie.Title} ({movie.Year})</h2>
+                      </div>
+                      <StreamingDropdown />
+                    </div>
+                    <p>{movie.Plot}</p>
+                    <p>Actors: {movie.Actors}</p>
+                    <div className="movie-rating">
+                      {renderStars(Number(movie.imdbRating))}
+                      <span> {movie.imdbRating}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
-          </div>
-        ) : (
-          <div className="error-message">
-            <h3>No movies found based on the given description. Please try again with more details.</h3>
-            {/* Optional retry button */}
-            <div className="retry-container">
-              <button onClick={handleRetry}>Retry</button>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="error-message">
+              <h3>No movies found based on the given description. Please try again with more details.</h3>
+              {/* Optional retry button */}
+              <div className="retry-container">
+                <button onClick={handleRetry}>Retry</button>
+              </div>
+            </div>
+          )}
+        </div>
+        {
+          movies.length > 0 && (
+            <h3>Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
+          )
+        }
       </div>
-      {movies.length > 0 && (
-        <h3>Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
-      )}
       <footer className="footer">
         <div className="footer-content">
           © 2023 What's That Movie?.  All rights reserved.
