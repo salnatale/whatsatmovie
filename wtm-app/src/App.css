@@ -180,9 +180,7 @@ header::after {
 /* streaming dropdown css */
 
 
-/* .streaming-dropdown {
-  display: flex
-} */
+
 
 .country-list {
   position: absolute;
@@ -205,12 +203,15 @@ header::after {
   background-color: #f1f1f1;
 }
 
-/* .movie-title-text {
-  display: flex
-} */
+.movie-title-text {
+  margin-right: 10%;
+}
+
+
 
 .movie-title-section {
   display: flex;
   flex-direction: row;
+  align-items: center;
   /* This ensures vertical centering if your title/details have more height */
 }
