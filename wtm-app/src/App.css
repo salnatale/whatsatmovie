@@ -318,11 +318,11 @@ h1 {
 }
 
 #bar1 {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 
 #bar3 {
-  transform: translateY(4px);
+  transform: translateY(2px);
 }
 
 .nav {
