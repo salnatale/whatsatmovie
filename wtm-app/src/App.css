@@ -206,7 +206,6 @@ header::after {
 
 .movie-details-section {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   /* This ensures vertical centering if your title/details have more height */
 }

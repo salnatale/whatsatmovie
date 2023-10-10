@@ -149,7 +149,9 @@ function App() {
                 <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
                 <div className="movie-details">
                   <div className="movie-title-section">
-                    <h2>{movie.Title} ({movie.Year})</h2>
+                    <div className='movie-title-text'>
+                      <h2>{movie.Title} ({movie.Year})</h2>
+                    </div>
                     <StreamingDropdown />
                   </div>
                   <p>{movie.Plot}</p>
@@ -173,9 +175,11 @@ function App() {
           </div>
         )}
       </div>
-      {movies.length > 0 && (
-        <h3>Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
-      )}
+      {
+        movies.length > 0 && (
+          <h3>Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
+        )
+      }
       <footer className="footer">
         <div className="footer-content">
           © 2023 What's That Movie?.  All rights reserved.
