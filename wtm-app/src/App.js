@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import logo from './logo.png';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
+// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// if implement routing
 
 function App() {
   const [success, setSuccess] = useState(true);
