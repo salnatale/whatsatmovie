@@ -59,13 +59,13 @@ function Header() {
             <div class="menu-bg" id="menu-bg"></div>
 
             <div className='sliding-text'>
-                <span>Ah, the whimsical world of cinema! You know, I was just pondering about that one film... oh, what was it? The one with the charismatic cactus who becomes the mayor of a bustling metropolis, only to discover that the city's water supply is actually... lemonade? No, that's not it.
+                <span>"Ah, the whimsical world of cinema! You know, I was just pondering about that one film... oh, what was it? The one with the charismatic cactus who becomes the mayor of a bustling metropolis, only to discover that the city's water supply is actually... lemonade? No, that's not it.
 
                     Or perhaps it was the romantic drama where a sentient spaghetti falls in love with a rebellious meatball, and together they navigate the culinary complexities of a world dominated by health-conscious salads. The climax, set in a microwave, was nothing short of electromagnetic poetry.
 
                     Wait, no, it might've been that avant-garde post-post-modern neo-noir film where everyone speaks in Morse code, and the protagonist is a disillusioned detective who’s trying to solve the mystery of why socks keep disappearing from washing machines. The twist at the end? The socks were actually interdimensional travelers. Pure cinematic genius!
 
-                    Ah, movies! Such a dazzling array of imagination and oddities. They capture the essence of our wildest dreams, making us laugh, cry, and question our very existence. But for the life of me, I can't recall the title of that one movie...</span>
+                    Ah, movies! Such a dazzling array of imagination and oddities. They capture the essence of our wildest dreams, making us laugh, cry, and question our very existence. But for the life of me, I can't recall the title of that one movie..."</span>
             </div>
             <a href="/">
                 <img className="site-logo" src={logo} alt="Logo" />
