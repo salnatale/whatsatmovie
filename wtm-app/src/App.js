@@ -148,7 +148,7 @@ function App() {
             One day, when the tonguing is done
             We'll take our leave and go</span> */}
         </div>
-        {/* <i className="fas fa-share-alt" onClick={handleShareClick}></i> */}
+        <i className="fas fa-share-alt" onClick={handleShareClick}></i>
         <div id="menu">
           <div id="menu-bar" className={isMenuOpen ? "change" : ""} onClick={menuOnClick}></div>
           <div id="nav" className={isMenuOpen ? "change" : ""}></div>
