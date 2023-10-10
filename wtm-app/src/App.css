@@ -147,7 +147,7 @@ h1 {
   position: relative;
   height: 30px;
   /* Adjust based on your requirements */
-  width: 200px;
+  width: 100%;
   /* Adjust based on the width you want for the sliding area */
 }
 
