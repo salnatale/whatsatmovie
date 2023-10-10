@@ -8,10 +8,13 @@ function App() {
   const [inputText, setInputText] = useState('');
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
   const handleSubmit = async () => {
     if (!inputText.trim()) {
       return; // Exit early if input is empty or whitespace only
     }
+
     setLoading(true);
 
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -100,6 +103,9 @@ function App() {
       alert('Failed to copy the URL. Please copy it manually.');
     }
   };
+  const menuOnClick = () => {
+    setMenuOpen(prevState => !prevState);
+  }
   function StreamingDropdown() {
     const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
 
@@ -142,7 +148,22 @@ function App() {
             One day, when the tonguing is done
             We'll take our leave and go</span> */}
         </div>
-        <i className="fas fa-share-alt" onClick={handleShareClick}></i>
+        {/* <i className="fas fa-share-alt" onClick={handleShareClick}></i> */}
+        <div id="menu">
+          <div id="menu-bar" className={isMenuOpen ? "change" : ""} onClick={menuOnClick}></div>
+          <div id="nav" className={isMenuOpen ? "change" : ""}></div>
+          <div id="menu-bg" className={isMenuOpen ? "change-bg" : ""}></div>
+          <nav class="nav" id="nav">
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Blog</a></li>
+            </ul>
+          </nav>
+
+        </div>
+        <div class="menu-bg" id="menu-bg"></div>
       </header>
       <div className='app-content'>
         <h1 style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/'}>What's That Movie?</h1>
