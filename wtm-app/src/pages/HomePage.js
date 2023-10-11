@@ -124,7 +124,8 @@ function HomePage() {
                                         {/* <StreamingDropdown />  */}
                                     </div>
                                     <p>{movie.Plot}</p>
-                                    <p>Actors: {movie.Actors}</p>
+                                    <p><strong>Actors:</strong> {movie.Actors}</p>
+                                    <p><strong>Director:</strong> {movie.Director} </p>
                                     <div className="movie-rating">
                                         {renderStars(Number(movie.imdbRating))}
                                         <span> {movie.imdbRating}</span>
