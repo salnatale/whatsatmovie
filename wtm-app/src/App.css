@@ -397,3 +397,20 @@ h1 {
   height: 460px;
   transform: translate(-60%, -30%);
 }
+
+/* ad css */
+
+#left-banner-ad,
+#right-banner-ad {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#left-banner-ad {
+  left: 0;
+}
+
+#right-banner-ad {
+  right: 0;
+}
