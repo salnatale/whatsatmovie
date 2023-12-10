@@ -75,12 +75,15 @@ function HomePage() {
         );
     };
 
-    function ShareContent(movieTitle, searchPrompt) {
+    function ShareContent({ movieTitle, searchPrompt }) {
+
+        const [resultMessage, setResultMessage] = useState('');
+
         const message = `I forgot the name of ${movieTitle}, so I searched '${searchPrompt}' on WhatsatMovie.com and it found it for me!`;
         const shareData = {
-            title: "MDN",
-            text: "Learn web development on MDN!",
-            url: "https://developer.mozilla.org",
+            title: "WTM",
+            text: message,
+            url: "https://whatsatmovie.com",
         };
         const handleShare = async () => {
             try {
@@ -152,7 +155,7 @@ function HomePage() {
                                         </div>
                                         {/* <StreamingDropdown />  */}
                                         <div className='ShareButton'>
-                                            <ShareContent></ShareContent>
+                                            <ShareComponent movieTitle={movie.Title} searchPrompt={inputText} />
                                         </div>
 
                                     </div>
