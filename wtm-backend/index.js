@@ -55,7 +55,8 @@ app.post('/api/generate-text', async (req, res) => {
 
 
         const generatedText = response.choices[0].message.content;
-        const regex = /(?<=\d\.\s)([^\n,]+?)(?=\s\(\d{4}\)|,|\n|$)/g;
+        // const regex = /(?<=\d\.\s)([^\n,]+?)(?=\s\(\d{4}\)|,|\n|$)/g;
+        const regex = /(?<=\d\.\s)(?:“|")?([^\n,"]+?)(?:”|")?(?=\s\(\d{4}\)|,|\n|$)/g;
         const titles = [];
         let match;
         if (hasMultipleTitles(generatedText)) {
