@@ -72,7 +72,7 @@ function HomePage() {
                     <i key={i + fullStars} className="fa fa-star-o" />
                 ))}
             </div>
-        );
+        )
     };
 
     function ShareContent(movieTitle, searchPrompt) {
@@ -81,7 +81,7 @@ function HomePage() {
             title: "WTM",
             text: message,
             url: "https://whatsatmovie.com",
-        };
+        }
         const handleShare = async () => {
             try {
                 await navigator.share(shareData);
@@ -89,15 +89,15 @@ function HomePage() {
             } catch (err) {
                 setResultMessage(`Error: ${err}`);
             }
-        };
+        }
 
         return (
             <div>
                 <button onClick={handleShare}>Share</button>
                 <p className="result">{resultMessage}</p>
             </div>
-        );
-    }
+        )
+    };
     // Code to share the message
 }
 
