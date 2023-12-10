@@ -144,9 +144,7 @@ function HomePage() {
 
     return (
         <div className='app-content'>
-            {/* <div id="left-banner-ad">
-    
-                </div> */}
+            <div data-banner-id="470742">{/*ad div  left */}</div>
             <div className="input-container">
                 <input
                     type="text"
@@ -203,9 +201,7 @@ function HomePage() {
                 )}
 
             </div>
-            {/* <div id="right-banner-ad">
-            
-            </div> */}
+            <div data-banner-id="470744">{/*ad div right */}</div>
 
 
         </div>
