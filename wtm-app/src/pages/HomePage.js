@@ -90,12 +90,15 @@ function HomePage() {
                 // Fallback for browsers where Web Share API is not available
                 showFallbackShare(message);
                 return;
-            }
-            try {
-                await navigator.share(shareData);
-                setResultMessage("MDN shared successfully");
-            } catch (err) {
-                setResultMessage(`Error: ${err}`);
+            } else {
+
+
+                try {
+                    await navigator.share(shareData);
+                    setResultMessage("MDN shared successfully");
+                } catch (err) {
+                    setResultMessage(`Error: ${err}`);
+                }
             }
         };
 
