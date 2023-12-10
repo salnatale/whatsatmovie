@@ -100,7 +100,6 @@ function HomePage() {
                 <p className="result">{resultMessage}</p>
             </div>
         );
-        // Code to share the message
     }
 
 
@@ -155,7 +154,7 @@ function HomePage() {
                                         </div>
                                         {/* <StreamingDropdown />  */}
                                         <div className='ShareButton'>
-                                            <ShareComponent movieTitle={movie.Title} searchPrompt={inputText} />
+                                            <ShareContent movieTitle={movie.Title} searchPrompt={inputText} />
                                         </div>
 
                                     </div>
