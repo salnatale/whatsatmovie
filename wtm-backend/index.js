@@ -32,7 +32,7 @@ app.post('/api/generate-text', async (req, res) => {
 
         // Constructing the specific prompt for the model
         const fullPrompt = `
-        You are an expert in movies. Based on the following description, please identify the movie(s). If you are confident about a single movie, provide its title in the format "Title: [Movie Name]". If you are unsure and there are multiple possibilities, list up to five of them in the format "Possible Titles: 1. [Movie Name 1], 2. [Movie Name 2], and so on..."
+        You are an expert in movies. Based on the following description, please identify the movie(s). If you are confident about a single movie, provide its title in the format "Title: [Movie Name]". If you are unsure and there are multiple possibilities, list up to five of them in the format "Possible Titles: 1. [Movie Name 1], 2. [Movie Name 2], etc..  Please provide only the titles, without any descriptions or additional information.""
         `;
 
         const response = await openai.chat.completions.create({
