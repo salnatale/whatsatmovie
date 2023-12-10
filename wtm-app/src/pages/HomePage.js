@@ -104,7 +104,7 @@ function HomePage() {
 
         return (
             <div>
-                <button onClick={handleShare}>Share finding!</button>
+                <button style={{ float: 'right' }} onClick={handleShare}>Share finding!</button>
                 <p className="result">{resultMessage}</p>
             </div>
         );
