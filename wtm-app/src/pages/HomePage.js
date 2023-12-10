@@ -75,94 +75,121 @@ function HomePage() {
         );
     };
 
-    // comment out streaming dropdown until figure out suitable api solution
-    // function StreamingDropdown() {
-    //     const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
+    function ShareContent(movieTitle, searchPrompt) {
+        const message = `I forgot the name of ${movieTitle}, so I searched '${searchPrompt}' on WhatsatMovie.com and it found it for me!`;
+        const shareData = {
+            title: "WTM",
+            text: message,
+            url: "https://whatsatmovie.com",
+        };
+        const handleShare = async () => {
+            try {
+                await navigator.share(shareData);
+                setResultMessage("MDN shared successfully");
+            } catch (err) {
+                setResultMessage(`Error: ${err}`);
+            }
+        };
 
-    //     const countries = ["USA", "Canada", "UK", "Australia", "India"]; // Example country list, modify as needed
+        return (
+            <div>
+                <button onClick={handleShare}>Share</button>
+                <p className="result">{resultMessage}</p>
+            </div>
+        );
+    }
+    // Code to share the message
+}
 
-    //     return (
-    //         <div className="streaming-dropdown">
-    //             <button onClick={() => setIsOpen(!isOpen)}>Where to watch ▼ </button>
-    //             {isOpen && (
-    //                 <ul className="country-list">
-    //                     {countries.map(country => (
-    //                         <li key={country}>{country}</li>
-    //                     ))}
-    //                 </ul>
-    //             )}
-    //         </div>
-    //     );
-    // };
 
-    return (
-        <div className='app-content'>
-            {/* <div id="left-banner-ad">
+
+
+// comment out streaming dropdown until figure out suitable api solution
+// function StreamingDropdown() {
+//     const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
+
+//     const countries = ["USA", "Canada", "UK", "Australia", "India"]; // Example country list, modify as needed
+
+//     return (
+//         <div className="streaming-dropdown">
+//             <button onClick={() => setIsOpen(!isOpen)}>Where to watch ▼ </button>
+//             {isOpen && (
+//                 <ul className="country-list">
+//                     {countries.map(country => (
+//                         <li key={country}>{country}</li>
+//                     ))}
+//                 </ul>
+//             )}
+//         </div>
+//     );
+// };
+
+return (
+    <div className='app-content'>
+        {/* <div id="left-banner-ad">
     
                 </div> */}
-            <div className="input-container">
-                <input
-                    type="text"
-                    placeholder="Describe the Movie..."
-                    value={inputText}
-                    onChange={e => setInputText(e.target.value)}
-                />
-                <button onClick={handleSubmit} disabled={loading}>
-                    {loading ? "Loading..." : "Enter"}
-                </button>
-            </div>
-            <div className="container"> {/* Add the container div */}
-                {success ? (
-                    <div className="movies">
-                        {movies.map(movie => (
-                            <div key={movie.imdbID} className="movie-card">
-                                <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
-                                <div className="movie-details">
-                                    <div className="movie-title-section">
-                                        <div className='movie-title-text'>
-                                            <h2>{movie.Title} ({movie.Year})</h2>
-                                        </div>
-                                        {/* <StreamingDropdown />  */}
-                                        <div className='ShareButton'>
-                                            <button>Share long-lost Movie</button>
-                                        </div>
+        <div className="input-container">
+            <input
+                type="text"
+                placeholder="Describe the Movie..."
+                value={inputText}
+                onChange={e => setInputText(e.target.value)}
+            />
+            <button onClick={handleSubmit} disabled={loading}>
+                {loading ? "Loading..." : "Enter"}
+            </button>
+        </div>
+        <div className="container"> {/* Add the container div */}
+            {success ? (
+                <div className="movies">
+                    {movies.map(movie => (
+                        <div key={movie.imdbID} className="movie-card">
+                            <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
+                            <div className="movie-details">
+                                <div className="movie-title-section">
+                                    <div className='movie-title-text'>
+                                        <h2>{movie.Title} ({movie.Year})</h2>
+                                    </div>
+                                    {/* <StreamingDropdown />  */}
+                                    <ShareContent></ShareContent>
 
-                                    </div>
-                                    <p>{movie.Plot}</p>
-                                    <p><strong>Actors:</strong> {movie.Actors}</p>
-                                    <p><strong>Director:</strong> {movie.Director} </p>
-                                    <div className="movie-rating">
-                                        {renderStars(Number(movie.imdbRating))}
-                                        <span> {movie.imdbRating}</span>
-                                    </div>
+                                </div>
+                                <p>{movie.Plot}</p>
+                                <p><strong>Actors:</strong> {movie.Actors}</p>
+                                <p><strong>Director:</strong> {movie.Director} </p>
+                                <div className="movie-rating">
+                                    {renderStars(Number(movie.imdbRating))}
+                                    <span> {movie.imdbRating}</span>
                                 </div>
                             </div>
-                        ))}
-                        {/* {
+                        </div>
+                    ))}
+                    {/* {
                             movies.length > 0 && (
                                 <h3 className='end-movie-remark'> Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
                             )
                         } */}
-                    </div>
+                </div>
 
-                ) : (
-                    <div className="error-message">
-                        <h3>No movies found based on the given description. Please try again with more details.</h3>
-                        {/* Optional retry button */}
-                        <div className="retry-container">
-                            <button onClick={handleRetry}>Retry</button>
-                        </div>
+            ) : (
+                <div className="error-message">
+                    <h3>No movies found based on the given description. Please try again with more details.</h3>
+                    {/* Optional retry button */}
+                    <div className="retry-container">
+                        <button onClick={handleRetry}>Retry</button>
                     </div>
-                )}
+                </div>
+            )}
 
-            </div>
-            {/* <div id="right-banner-ad">
+        </div>
+        {/* <div id="right-banner-ad">
             
             </div> */}
 
 
-        </div>
-    );
+    </div>
+);
 }
 
 export default HomePage;
