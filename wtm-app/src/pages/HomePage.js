@@ -123,6 +123,10 @@ function HomePage() {
                                             <h2>{movie.Title} ({movie.Year})</h2>
                                         </div>
                                         {/* <StreamingDropdown />  */}
+                                        <div className='ShareButton'>
+                                            <button>Share long-lost Movie</button>
+                                        </div>
+
                                     </div>
                                     <p>{movie.Plot}</p>
                                     <p><strong>Actors:</strong> {movie.Actors}</p>
