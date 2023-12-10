@@ -86,6 +86,11 @@ function HomePage() {
             url: "https://whatsatmovie.com",
         };
         const handleShare = async () => {
+            if (!navigator.share) {
+                // Fallback for browsers where Web Share API is not available
+                showFallbackShare(message);
+                return;
+            }
             try {
                 await navigator.share(shareData);
                 setResultMessage("MDN shared successfully");
@@ -101,6 +106,15 @@ function HomePage() {
             </div>
         );
     }
+    const showFallbackShare = async (message) => {
+        try {
+            await navigator.clipboard.writeText(message);
+            alert('URL copied to clipboard! Share it wherever you like.');
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+            alert('Failed to copy the URL. Please copy it manually.');
+        }
+    };
 
 
 
