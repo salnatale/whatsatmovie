@@ -170,9 +170,9 @@ function HomePage() {
                                             <h2>{movie.Title} ({movie.Year})</h2>
                                         </div>
                                         {/* <StreamingDropdown />  */}
-                                        <div className='ShareButton'>
-                                            <ShareContent movieTitle={movie.Title} searchPrompt={inputText} />
-                                        </div>
+                                        {/* <div className='ShareButton'> */}
+                                        <ShareContent movieTitle={movie.Title} searchPrompt={inputText} />
+                                        {/* </div> */}
 
                                     </div>
                                     <p>{movie.Plot}</p>
