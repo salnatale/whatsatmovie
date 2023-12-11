@@ -185,6 +185,8 @@ function HomePage() {
         <div className='ad-content-ad'>
 
             <div data-banner-id="470742">{/*ad div  left */}</div>
+            <script async="async" data-cfasync="false" src="//pl21742969.toprevenuegate.com/1b5cb9d1b8212c3d13862a95b44026ad/invoke.js"></script>
+            <div id="container-1b5cb9d1b8212c3d13862a95b44026ad"></div>
             <div className='app-content'>
 
 
