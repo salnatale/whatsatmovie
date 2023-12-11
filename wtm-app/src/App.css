@@ -405,30 +405,32 @@ h1 {
   justify-content: center;
 }
 
-div[data-banner-id="470742"] {
-  position: fixed;
-  /* or absolute */
-  top: 25%;
-  /* Adjust as needed */
-  left: 0;
-  width: 160px;
-  /* Your ad width */
-  height: 600px;
-  /* Your ad height, or 100% if you want it full height */
-  z-index: 10;
-  /* Ensure it's above other content */
-}
+@media screen and (min-width: 1000px) {
+  div[data-banner-id="470742"] {
+    position: fixed;
+    /* or absolute */
+    top: 25%;
+    /* Adjust as needed */
+    left: 0;
+    width: 160px;
+    /* Your ad width */
+    height: 600px;
+    /* Your ad height, or 100% if you want it full height */
+    z-index: 10;
+    /* Ensure it's above other content */
+  }
 
-div[data-banner-id="470744"] {
-  position: fixed;
-  /* or absolute */
-  top: 25%;
-  /* Adjust as needed */
-  right: 0;
-  width: 160px;
-  /* Your ad width */
-  height: 600px;
-  /* Your ad height, or 100% if you want it full height */
-  z-index: 10;
-  /* Ensure it's above other content */
+  div[data-banner-id="470744"] {
+    position: fixed;
+    /* or absolute */
+    top: 25%;
+    /* Adjust as needed */
+    right: 0;
+    width: 160px;
+    /* Your ad width */
+    height: 600px;
+    /* Your ad height, or 100% if you want it full height */
+    z-index: 10;
+    /* Ensure it's above other content */
+  }
 }
