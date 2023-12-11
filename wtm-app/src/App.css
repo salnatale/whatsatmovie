@@ -408,7 +408,7 @@ h1 {
 div[data-banner-id="470742"] {
   position: fixed;
   /* or absolute */
-  /* top: 0;
+  top: 25%;
   /* Adjust as needed */
   left: 0;
   width: 160px;
@@ -422,7 +422,7 @@ div[data-banner-id="470742"] {
 div[data-banner-id="470744"] {
   position: fixed;
   /* or absolute */
-  /* top: 0; */
+  top: 25%;
   /* Adjust as needed */
   right: 0;
   width: 160px;
