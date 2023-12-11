@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../App.css';
-import './Modal.css'; // Make sure to create a corresponding CSS file for styling
+import '../Modal.css'; // Make sure to create a corresponding CSS file for styling
 
 
 
