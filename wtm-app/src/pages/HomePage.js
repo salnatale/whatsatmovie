@@ -143,9 +143,11 @@ function HomePage() {
     // };
 
     return (
-        <div className='app-content'>
-            <div className='ad-content-ad'>
-                <div data-banner-id="470742">{/*ad div  left */}</div>
+        <div className='ad-content-ad'>
+            <div data-banner-id="470742">{/*ad div  left */}</div>
+            <div className='app-content'>
+
+
                 <div className="input-container">
                     <input
                         type="text"
@@ -202,10 +204,11 @@ function HomePage() {
                     )}
 
                 </div>
-                <div data-banner-id="470744">{/*ad div right */}</div>
+
 
 
             </div>
+            <div data-banner-id="470744">{/*ad div right */}</div>
         </div>
     );
 }
