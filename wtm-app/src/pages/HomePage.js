@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Banner } from "exoclick-react";
 import '../App.css';
 import '../Modal.css'; // Make sure to create a corresponding CSS file for styling
 
@@ -183,6 +184,7 @@ function HomePage() {
             </ul>
         </Modal>
         <div className='ad-content-ad'>
+            <Banner zoneId="5152186" />
             <div data-banner-id="470742">{/*ad div  left */}</div>
             <div className='app-content'>
 
@@ -247,6 +249,7 @@ function HomePage() {
 
 
             </div>
+            <Banner zoneId="5152194" />
             <div data-banner-id="470744">{/*ad div right */}</div>
         </div>
     </div >
