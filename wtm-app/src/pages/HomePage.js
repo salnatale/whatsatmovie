@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../App.css';
+import './Modal.css'; // Make sure to create a corresponding CSS file for styling
+
 
 
 function HomePage() {
@@ -7,6 +9,7 @@ function HomePage() {
     const [inputText, setInputText] = useState('');
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     const handleSubmit = async () => {
         if (!inputText.trim()) {
@@ -118,7 +121,32 @@ function HomePage() {
             alert('Failed to copy the URL. Please copy it manually.');
         }
     };
+    const Modal = ({ show, close, children }) => {
+        if (!show) {
+            return null;
+        }
 
+        return (
+            <div className="modal" onClick={close}>
+                <div className="modal-content" onClick={e => e.stopPropagation()}>
+                    <span className="close" onClick={close}>&times;</span>
+                    {children}
+                </div>
+            </div>
+        );
+    };
+
+    useEffect(() => {
+        const hasVisited = localStorage.getItem('hasVisited');
+        if (!hasVisited) {
+            setShowModal(true);
+            localStorage.setItem('hasVisited', 'true');
+        }
+    }, []);
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
 
 
@@ -144,6 +172,15 @@ function HomePage() {
 
     return (
         <div className='ad-content-ad'>
+            <Modal show={showModal} close={closeModal}>
+                <h2>Welcome to Our Site!</h2>
+                <p>Here's how to use our site:</p>
+                <ul>
+                    <li>Instruction 1</li>
+                    <li>Instruction 2</li>
+                    <li>Instruction 3</li>
+                </ul>
+            </Modal>
             <div data-banner-id="470742">{/*ad div  left */}</div>
             <div className='app-content'>
 
