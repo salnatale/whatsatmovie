@@ -23,13 +23,25 @@
     left: 50%;
     transform: translate(-50%, -50%);
     /* Center the modal */
-    padding: 20px;
+    padding: 40px;
+    /* Increased padding */
     background: white;
+    border: 2px solid green;
+    /* Full green border */
     border-radius: 5px;
-    /* Optional: for rounded corners */
+    /* Rounded corners */
+    width: 50%;
+    /* Larger width */
+    max-width: 800px;
+    /* Maximum width, adjust as needed */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* Optional: Adds shadow for depth */
     z-index: 1001;
     /* Ensure it's above the modal background */
+    box-sizing: border-box;
+    /* Ensures padding is included in the width */
 }
+
 
 .close {
     position: absolute;
