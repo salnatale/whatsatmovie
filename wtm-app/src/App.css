@@ -444,3 +444,43 @@ h1 {
     display: none;
   }
 }
+
+@media screen and (min-width: 1000px) {
+  div[id="container-1b5cb9d1b8212c3d13862a95b44026ad"] {
+    position: fixed;
+    /* or absolute */
+    top: 25%;
+    /* Adjust as needed */
+    left: 5%;
+    width: 160px;
+    /* Your ad width */
+    height: 600px;
+    /* Your ad height, or 100% if you want it full height */
+    z-index: 10;
+    /* Ensure it's above other content */
+  }
+
+  div[id="container-1b5cb9d1b8212c3d13862a95b44026ad"] {
+    position: fixed;
+    /* or absolute */
+    top: 25%;
+    /* Adjust as needed */
+    right: 5%;
+    width: 160px;
+    /* Your ad width */
+    height: 600px;
+    /* Your ad height, or 100% if you want it full height */
+    z-index: 10;
+    /* Ensure it's above other content */
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  div[id="container-1b5cb9d1b8212c3d13862a95b44026ad"] {
+    display: none;
+  }
+
+  div[id="container-1b5cb9d1b8212c3d13862a95b44026ad"] {
+    display: none;
+  }
+}
