@@ -183,7 +183,6 @@ function HomePage() {
             </ul>
         </Modal>
         <div className='ad-content-ad'>
-
             <div data-banner-id="470742">{/*ad div  left */}</div>
             <div className='app-content'>
 
@@ -250,7 +249,7 @@ function HomePage() {
             </div>
             <div data-banner-id="470744">{/*ad div right */}</div>
         </div>
-    </div>
+    </div >
 
     );
 }
