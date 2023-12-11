@@ -434,3 +434,13 @@ h1 {
     /* Ensure it's above other content */
   }
 }
+
+@media screen and (max-width: 1000px) {
+  div[data-banner-id="470742"] {
+    display: none;
+  }
+
+  div[data-banner-id="470744"] {
+    display: none;
+  }
+}
