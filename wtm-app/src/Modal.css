@@ -64,11 +64,20 @@
     }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
 
     /* Adjust 600px to your desired threshold */
     .modal {
         font-size: 0.5em;
+        /* Adjust the size as needed */
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+    /* Adjust 600px to your desired threshold */
+    .modal {
+        font-size: 0.35em;
         /* Adjust the size as needed */
     }
 }
