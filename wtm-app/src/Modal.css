@@ -40,8 +40,12 @@
     /* Ensure it's above the modal background */
     box-sizing: border-box;
     /* Ensures padding is included in the width */
+
 }
 
+.modal-content h2 {
+    text-align: center;
+}
 
 .close {
     position: absolute;
