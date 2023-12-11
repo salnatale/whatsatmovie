@@ -451,10 +451,10 @@ h1 {
     /* or absolute */
     top: 25%;
     /* Adjust as needed */
-    left: 5%;
-    width: 160px;
+    left: 160px;
+    width: 500px;
     /* Your ad width */
-    height: 600px;
+    height: 300px;
     /* Your ad height, or 100% if you want it full height */
     z-index: 10;
     /* Ensure it's above other content */
@@ -465,10 +465,10 @@ h1 {
     /* or absolute */
     top: 25%;
     /* Adjust as needed */
-    right: 5%;
-    width: 160px;
+    right: 160px;
+    width: 500px;
     /* Your ad width */
-    height: 600px;
+    height: 300px;
     /* Your ad height, or 100% if you want it full height */
     z-index: 10;
     /* Ensure it's above other content */
