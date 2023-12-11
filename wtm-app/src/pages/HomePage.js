@@ -172,7 +172,7 @@ function HomePage() {
 
     return (<div className='App'>
         <Modal show={showModal} close={closeModal}>
-            <h2>Welcome to Whats 'at Movie</h2>
+            <h2>Welcome to: Whats 'at Movie?</h2>
             <p>Our site is pretty simple to use, but we thought we'd give some tips anyways. Here's how to find your movie:</p>
             <ul>
                 <li>In the description box under this pop-up, please describe the movie you're thinking of!</li>
