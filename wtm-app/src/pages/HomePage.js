@@ -172,12 +172,14 @@ function HomePage() {
 
     return (<div className='App'>
         <Modal show={showModal} close={closeModal}>
-            <h2>Welcome to Our Site!</h2>
-            <p>Here's how to use our site:</p>
+            <h2>Welcome to Whats 'at Movie</h2>
+            <p>Our site is pretty simple to use, but we thought we'd give some tips anyways. Here's how to find your movie:</p>
             <ul>
-                <li>Instruction 1</li>
-                <li>Instruction 2</li>
-                <li>Instruction 3</li>
+                <li>In the description box under this pop-up, please describe the movie you're thinking of!</li>
+                <li>Please try to be as clear and as concise as possible.</li>
+                <li>When describing information about the movie, please don't be afraid to catagorize. for example, before describing the plot, say the movie is "about", and if talking about the actors who played in it, be sure to differentiate between them and characters. </li>
+                <li>Feel free to share any of your results or obscure movies found with the #Whatsatmovie on socials!
+                    Other than that, good luck, and happy movie hunting! </li>
             </ul>
         </Modal>
         <div className='ad-content-ad'>
