@@ -63,3 +63,12 @@
         /* Adjust the size as needed */
     }
 }
+
+@media screen and (max-width: 400px) {
+
+    /* Adjust 600px to your desired threshold */
+    .modal {
+        font-size: 0.5em;
+        /* Adjust the size as needed */
+    }
+}
