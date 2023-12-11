@@ -144,66 +144,68 @@ function HomePage() {
 
     return (
         <div className='app-content'>
-            <div data-banner-id="470742">{/*ad div  left */}</div>
-            <div className="input-container">
-                <input
-                    type="text"
-                    placeholder="Describe the Movie..."
-                    value={inputText}
-                    onChange={e => setInputText(e.target.value)}
-                />
-                <button onClick={handleSubmit} disabled={loading}>
-                    {loading ? "Loading..." : "Enter"}
-                </button>
-            </div>
-            <div className="container"> {/* Add the container div */}
-                {success ? (
-                    <div className="movies">
-                        {movies.map(movie => (
-                            <div key={movie.imdbID} className="movie-card">
-                                <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
-                                <div className="movie-details">
-                                    <div className="movie-title-section">
-                                        <div className='movie-title-text'>
-                                            <h2>{movie.Title} ({movie.Year})</h2>
-                                        </div>
-                                        {/* <StreamingDropdown />  */}
-                                        {/* <div className='ShareButton'> */}
-                                        <ShareContent movieTitle={movie.Title} searchPrompt={inputText} />
-                                        {/* </div> */}
+            <div className='ad-content-ad'>
+                <div data-banner-id="470742">{/*ad div  left */}</div>
+                <div className="input-container">
+                    <input
+                        type="text"
+                        placeholder="Describe the Movie..."
+                        value={inputText}
+                        onChange={e => setInputText(e.target.value)}
+                    />
+                    <button onClick={handleSubmit} disabled={loading}>
+                        {loading ? "Loading..." : "Enter"}
+                    </button>
+                </div>
+                <div className="container"> {/* Add the container div */}
+                    {success ? (
+                        <div className="movies">
+                            {movies.map(movie => (
+                                <div key={movie.imdbID} className="movie-card">
+                                    <img className="movie-poster" src={movie.Poster} alt={movie.Title} />
+                                    <div className="movie-details">
+                                        <div className="movie-title-section">
+                                            <div className='movie-title-text'>
+                                                <h2>{movie.Title} ({movie.Year})</h2>
+                                            </div>
+                                            {/* <StreamingDropdown />  */}
+                                            {/* <div className='ShareButton'> */}
+                                            <ShareContent movieTitle={movie.Title} searchPrompt={inputText} />
+                                            {/* </div> */}
 
-                                    </div>
-                                    <p>{movie.Plot}</p>
-                                    <p><strong>Actors:</strong> {movie.Actors}</p>
-                                    <p><strong>Director:</strong> {movie.Director} </p>
-                                    <div className="movie-rating">
-                                        {renderStars(Number(movie.imdbRating))}
-                                        <span> {movie.imdbRating}</span>
+                                        </div>
+                                        <p>{movie.Plot}</p>
+                                        <p><strong>Actors:</strong> {movie.Actors}</p>
+                                        <p><strong>Director:</strong> {movie.Director} </p>
+                                        <div className="movie-rating">
+                                            {renderStars(Number(movie.imdbRating))}
+                                            <span> {movie.imdbRating}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                        {/* {
+                            ))}
+                            {/* {
                             movies.length > 0 && (
                                 <h3 className='end-movie-remark'> Not what you were looking for? Please refine search to add more movie-specific detail.</h3>
                             )
                         } */}
-                    </div>
-
-                ) : (
-                    <div className="error-message">
-                        <h3>No movies found based on the given description. Please try again with more details.</h3>
-                        {/* Optional retry button */}
-                        <div className="retry-container">
-                            <button onClick={handleRetry}>Retry</button>
                         </div>
-                    </div>
-                )}
+
+                    ) : (
+                        <div className="error-message">
+                            <h3>No movies found based on the given description. Please try again with more details.</h3>
+                            {/* Optional retry button */}
+                            <div className="retry-container">
+                                <button onClick={handleRetry}>Retry</button>
+                            </div>
+                        </div>
+                    )}
+
+                </div>
+                <div data-banner-id="470744">{/*ad div right */}</div>
+
 
             </div>
-            <div data-banner-id="470744">{/*ad div right */}</div>
-
-
         </div>
     );
 }

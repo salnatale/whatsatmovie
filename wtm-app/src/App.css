@@ -400,17 +400,7 @@ h1 {
 
 /* ad css */
 
-#left-banner-ad,
-#right-banner-ad {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#left-banner-ad {
-  left: 0;
-}
-
-#right-banner-ad {
-  right: 0;
+.ad-content-ad {
+  display: flex;
+  justify-content: center;
 }
