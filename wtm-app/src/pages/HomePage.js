@@ -170,17 +170,18 @@ function HomePage() {
     //     );
     // };
 
-    return (
+    return (<div className='App'>
+        <Modal show={showModal} close={closeModal}>
+            <h2>Welcome to Our Site!</h2>
+            <p>Here's how to use our site:</p>
+            <ul>
+                <li>Instruction 1</li>
+                <li>Instruction 2</li>
+                <li>Instruction 3</li>
+            </ul>
+        </Modal>
         <div className='ad-content-ad'>
-            <Modal show={showModal} close={closeModal}>
-                <h2>Welcome to Our Site!</h2>
-                <p>Here's how to use our site:</p>
-                <ul>
-                    <li>Instruction 1</li>
-                    <li>Instruction 2</li>
-                    <li>Instruction 3</li>
-                </ul>
-            </Modal>
+
             <div data-banner-id="470742">{/*ad div  left */}</div>
             <div className='app-content'>
 
@@ -247,6 +248,8 @@ function HomePage() {
             </div>
             <div data-banner-id="470744">{/*ad div right */}</div>
         </div>
+    </div>
+
     );
 }
 
