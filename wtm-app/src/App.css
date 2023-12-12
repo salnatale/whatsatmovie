@@ -406,7 +406,7 @@ h1 {
 }
 
 @media screen and (min-width: 1000px) {
-  div[data-banner-id="470742"] {
+  .banner-class {
     position: fixed;
     /* or absolute */
     top: 25%;
@@ -441,6 +441,47 @@ h1 {
   }
 
   div[data-banner-id="470744"] {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .banner-Left {
+    position: fixed;
+    /* or absolute */
+    top: 25%;
+    /* Adjust as needed */
+    left: 0;
+    width: 160px;
+    /* Your ad width */
+    height: 600px;
+    /* Your ad height, or 100% if you want it full height */
+    z-index: 10;
+    /* Ensure it's above other content */
+  }
+
+  .banner-Right {
+    position: fixed;
+    /* or absolute */
+    top: 25%;
+    /* Adjust as needed */
+    right: 0;
+    width: 160px;
+    /* Your ad width */
+    height: 600px;
+    /* Your ad height, or 100% if you want it full height */
+    z-index: 10;
+    /* Ensure it's above other content */
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .banner-Left {
+    display: none;
+  }
+
+  .banner-Right {
+
     display: none;
   }
 }

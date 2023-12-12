@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Banner } from "exoclick-react";
+import { Banner, StickyBanner } from "exoclick-react";
 import '../App.css';
 import '../Modal.css'; // Make sure to create a corresponding CSS file for styling
 
@@ -184,8 +184,16 @@ function HomePage() {
             </ul>
         </Modal>
         <div className='ad-content-ad'>
-            <Banner zoneId="5152186" />
-            <div data-banner-id="470742">{/*ad div  left */}</div>
+            <StickyBanner
+                zoneId="5152326"
+                horizontalPosition="center"
+                verticalPosition="top"
+                format="728x90"
+            />
+            <div className='banner-Left'>
+                <Banner zoneId="5152186" />
+            </div>
+            {/* <div data-banner-id="470742">ad div  left</div> */}
             <div className='app-content'>
 
 
@@ -249,8 +257,11 @@ function HomePage() {
 
 
             </div>
-            <Banner zoneId="5152194" />
-            <div data-banner-id="470744">{/*ad div right */}</div>
+            <div className='banner-Right'>
+                <Banner zoneId="5152186" />
+            </div>
+
+            {/* <div data-banner-id="470744"> </div> */}
         </div>
     </div >
 
