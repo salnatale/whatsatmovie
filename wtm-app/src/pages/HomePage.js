@@ -177,9 +177,10 @@ function HomePage() {
             <p>Our site is pretty simple to use, but we thought we'd give some tips anyways. Here's how to find your movie:</p>
             <ul>
                 <li>In the description box under this pop-up, please describe the movie you're thinking of!</li>
-                <li>Please try to be as clear and as concise as possible.</li>
-                <li>When describing information about the movie, please don't be afraid to catagorize. for example, before describing the plot, say the movie is "about", and if talking about the actors who played in it, be sure to differentiate between them and characters. </li>
-                <li>Feel free to share any of your results or obscure movies found with the #Whatsatmovie on socials!
+                <li>Please try to be as clear and as concise as possible, The wordier the prompt, the more information the model will have to process.</li>
+                <li>Don't be afraid to try multiple times or with different descriptions. The model can react in a large way to seemingly small changes in the description.</li>
+                <li> Remember, this is a tool designed to find movies you don't remember the name of. It can be tricked with very niche movies, and does not pretend to be perfect. Hopefully it helps some people however.  </li>
+                <li>Feel free to share any of your results or movies found with the #Whatsatmovie on socials!
                     Other than that, good luck, and happy movie hunting! </li>
             </ul>
         </Modal>
