@@ -184,12 +184,14 @@ function HomePage() {
             </ul>
         </Modal>
         <div className='ad-content-ad'>
-            <StickyBanner
-                zoneId="5152326"
-                horizontalPosition="center"
-                verticalPosition="top"
-                format="728x90"
-            />
+            <div className='sticky-banner'>
+                <StickyBanner
+                    zoneId="5152326"
+                    horizontalPosition="center"
+                    verticalPosition="top"
+                    format="728x90"
+                />
+            </div>
             <div className='banner-Left'>
                 <Banner zoneId="5152186" />
             </div>
@@ -258,7 +260,7 @@ function HomePage() {
 
             </div>
             <div className='banner-Right'>
-                <Banner zoneId="5152186" />
+                <Banner zoneId="5152194" />
             </div>
 
             {/* <div data-banner-id="470744"> </div> */}
