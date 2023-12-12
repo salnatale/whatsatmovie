@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Banner, StickyBanner, RecommendationWidget } from "exoclick-react";
+import { Banner, StickyBanner } from "exoclick-react";
 import '../App.css';
 import '../Modal.css'; // Make sure to create a corresponding CSS file for styling
 
