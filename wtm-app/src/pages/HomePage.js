@@ -12,6 +12,8 @@ function HomePage() {
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
+
+
     const handleSubmit = async () => {
         if (!inputText.trim()) {
             return; // Exit early if input is empty or whitespace only
@@ -151,6 +153,7 @@ function HomePage() {
 
 
 
+
     // comment out streaming dropdown until figure out suitable api solution
     // function StreamingDropdown() {
     //     const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
@@ -174,14 +177,13 @@ function HomePage() {
     return (<div className='App'>
         <Modal show={showModal} close={closeModal}>
             <h2>Welcome to: Whats 'at Movie?</h2>
-            <p>Our site is pretty simple to use, but we thought we'd give some tips anyways. Here's how to find your movie:</p>
+            <p>Describe the movie you're thinking of in the description box below this pop-up.</p>
             <ul>
-                <li>In the description box under this pop-up, please describe the movie you're thinking of!</li>
-                <li>Please try to be as clear and as concise as possible, The wordier the prompt, the more information the model will have to process.</li>
-                <li>Don't be afraid to try multiple times or with different descriptions. The model can react in a large way to seemingly small changes in the description.</li>
-                <li> Remember, this is a tool designed to find movies you don't remember the name of. It can be tricked with very niche movies, and does not pretend to be perfect. Hopefully it helps some people however.  </li>
-                <li>Feel free to share any of your results or movies found with the #Whatsatmovie on socials!
-                    Other than that, good luck, and happy movie hunting! </li>
+                <li> Be clear and concise; detailed prompts help the model process information better.</li>
+                <li> Don't hesitate to try different descriptions or multiple attempts. Small changes in the description can significantly alter the model's response.</li>
+                <li> This tool is designed to help identify movies whose names you've forgotten. Be aware that it might not work perfectly with very obscure movies.</li>
+                <li> Feel free to share your discoveries or results using #Whatsatmovie on social media.</li>
+                <li> Good luck and happy movie hunting!</li>
             </ul>
         </Modal>
         <div className='ad-content-ad'>
@@ -193,6 +195,9 @@ function HomePage() {
                     format="728x90"
                 />
             </div>
+            {/* <div className='banner-mobile'>
+                <Banner zoneId="5153166"></Banner>
+            </div> */}
             <div className='banner-Left'>
                 <Banner zoneId="5152186" />
             </div>
