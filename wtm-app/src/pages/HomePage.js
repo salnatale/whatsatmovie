@@ -154,6 +154,7 @@ function HomePage() {
 
 
 
+
     // comment out streaming dropdown until figure out suitable api solution
     // function StreamingDropdown() {
     //     const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
@@ -187,14 +188,14 @@ function HomePage() {
             </ul>
         </Modal>
         <div className='ad-content-ad'>
-            <div className='sticky-banner'>
+            {/* <div className='sticky-banner'>
                 <StickyBanner
                     zoneId="5152326"
                     horizontalPosition="center"
                     verticalPosition="top"
                     format="728x90"
                 />
-            </div>
+            </div> */}
             {/* <div className='banner-mobile'>
                 <Banner zoneId="5153166"></Banner>
             </div> */}
