@@ -121,7 +121,7 @@ app.post('/api/generate-text', async (req, res) => {
             });
             return res.json({
                 success: false,
-                message: 'No valid movies found based on the given description.'
+                message: 'No valid movies found based on the given description, saving gen text to file.'
             });
         }
 
