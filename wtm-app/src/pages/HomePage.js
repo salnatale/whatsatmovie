@@ -199,7 +199,7 @@ function HomePage() {
                 <Banner zoneId="5153166"></Banner>
             </div> */}
             <div className='banner-Left'>
-                <Banner zoneId="5152186" />
+                <Banner zoneId="5153452" />
             </div>
             {/* <div data-banner-id="470742">ad div  left</div> */}
             <div className='app-content'>
@@ -272,7 +272,7 @@ function HomePage() {
 
             </div>
             <div className='banner-Right'>
-                <Banner zoneId="5152194" />
+                <Banner zoneId="5153454" />
             </div>
 
             {/* <div data-banner-id="470744"> </div> */}
