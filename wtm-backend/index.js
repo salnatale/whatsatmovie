@@ -4,6 +4,7 @@ const OpenAI = require('openai');
 const axios = require('axios');
 const express = require('express');
 const API_KEY = process.env.OMDB_API_KEY;
+const fs = require('fs');
 async function getMovieDetails(movieName) {
     const encodedMovieName = movieName.replace(/ /g, '+');  // Replacing spaces with '+'
 
@@ -105,8 +106,19 @@ app.post('/api/generate-text', async (req, res) => {
         if (!validMovies.length) {
             console.log("json response:", {
                 success: false,
-                message: 'No valid movies found based on the given description.'
+                message: 'No valid movies found based on the given description, saving gen text to file'
             })
+            // Define a filename
+            const filename = `no-movies-found-${Date.now()}.txt`;
+
+            // Write the generated text to a file
+            fs.writeFile(filename, generatedText, (err) => {
+                if (err) {
+                    console.error('Error writing to file:', err);
+                } else {
+                    console.log(`Generated text saved to ${filename}`);
+                }
+            });
             return res.json({
                 success: false,
                 message: 'No valid movies found based on the given description.'
