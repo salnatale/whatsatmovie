@@ -81,11 +81,22 @@ app.post('/api/generate-text', async (req, res) => {
         if (!titles.length || allMovieDetails.every(detail => detail.Response === 'False')) {
             console.log("json response:", {
                 success: false,
-                message: 'No movies found based on the given description.'
+                message: 'No movies found based on the given description, saving gen text'
             })
+            // Define a filename
+            const filename = `no-movies-found-${Date.now()}.txt`;
+
+            // Write the generated text to a file
+            fs.writeFile(filename, generatedText, (err) => {
+                if (err) {
+                    console.error('Error writing to file:', err);
+                } else {
+                    console.log(`Generated text saved to ${filename}`);
+                }
+            });
             return res.json({
                 success: false,
-                message: 'No movies found based on the given description.'
+                message: 'No movies found based on the given description, saving gen text'
             });
         }
 
