@@ -7,16 +7,19 @@ const API_KEY = process.env.OMDB_API_KEY;
 const fs = require('fs');
 const { addFlicktionaryRoutes } = require('./flicktionary');
 const fetch = require('node-fetch');
+const { Pinecone } = require('@pinecone-database/pinecone');
 
 let index;
+let pc;
+
 try {
-    const { Pinecone } = require('@pinecone-database/pinecone');
     console.log("Pinecone SDK version:", require('@pinecone-database/pinecone/package.json').version);
 
-    const pc = new Pinecone({
+    pc = new Pinecone({
         apiKey: process.env.PINECONE_API_KEY,
         fetchApi: fetch,
     });
+    console.log("Has inference API?", typeof pc.inference?.embed === 'function');
     index = pc.index(process.env.PINECONE_INDEX);
 
     console.log("Connected to Pinecone index:", process.env.PINECONE_INDEX);
@@ -35,30 +38,6 @@ function hasMultipleTitles(inputText) {
     const regexPattern = /\d\./;
     return regexPattern.test(inputText);
 }
-// Check if the movie already exists in the database
-async function checkMovieExists(imdbID) {
-    try {
-      const { matches } = await index.search({
-        namespace: process.env.PINECONE_NAMESPACE || "",
-  
-        // this object maps to the `search_records` API
-        query: {
-          inputs: { text: "" },         // dummy text → embeds to a vector
-          topK: 1,                      // we only need to know if at least one exists
-          filter: { imdbID: { $eq: imdbID } }
-        },
-  
-        // you can omit metadata/values if you don’t need them
-        includeMetadata: false,
-        includeValues:   false
-      });
-  
-      return matches.length > 0;
-    } catch (err) {
-      console.error("Error checking if movie exists:", err);
-      return false;
-    }
-  }
 
 // Function to store movie info and query in vector DB (using Pinecone's auto-embedding)
 async function storeInVectorDB(userQuery, movieDetails) {
@@ -68,8 +47,6 @@ async function storeInVectorDB(userQuery, movieDetails) {
         for (const movie of movieDetails) {
             if (movie.Response === 'True') {
                 const imdbID = movie.imdbID;
-                const exists = await checkMovieExists(imdbID);
-                if (exists) continue;
 
                 vectors.push({
                     id: imdbID,
@@ -265,7 +242,7 @@ app.post('/api/similar-queries', async (req, res) => {
 });
 
 // Add the Flicktionary routes
-addFlicktionaryRoutes(app, index);
+addFlicktionaryRoutes(app, pc, index);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
