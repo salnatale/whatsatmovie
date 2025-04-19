@@ -6,10 +6,13 @@ const express = require('express');
 const { Pinecone } = require('@pinecone-database/pinecone');
 const API_KEY = process.env.OMDB_API_KEY;
 const fs = require('fs');
+
+const fetch = require('node-fetch'); 
+const { addFlickionaryRoutes } = require('./flicktionary');
 // init pinecone
 const pinecone = new Pinecone({
     apiKey: process.env.PINECONE_API_KEY,
-    fetchApi: global.fetch // Use fetchApi instead of fetch
+    fetchApi: fetch // Use fetchApi instead of fetch
   });
 // Initialize the index - replace 'movie-embeddings' with your preferred index name
 const index = pinecone.index(process.env.PINECONE_INDEX);
@@ -256,6 +259,9 @@ app.post('/api/similar-queries', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch similar queries' });
     }
 });
+
+// Add the Flicktionary routes
+addFlickionaryRoutes(app, index);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
