@@ -61,51 +61,38 @@ async function checkMovieExists(imdbID) {
 // Function to store movie info and query in vector DB (using Pinecone's auto-embedding)
 async function storeInVectorDB(userQuery, movieDetails) {
     try {
-        const vectors = [];
-
-        for (const movie of movieDetails) {
-            if (movie.Response === 'True') {
-                const imdbID = movie.imdbID;
-
-                // Add existence check here
-                const exists = await checkMovieExists(imdbID);
-                if (exists) {
-                    console.log(`Movie exists, skipping: ${movie.Title}`);
-                    continue; // Skip to next iteration
-                }
-
-                // Proceed with vector creation
-                const embeddingText = `${movie.Title} (${movie.Year}). ${movie.Plot}. Genre: ${movie.Genre || 'N/A'}`;
-
-                const metadata = {
-                    title: movie.Title,
-                    year: movie.Year,
-                    plot: movie.Plot,
-                    imdbID: imdbID,
-                    originalQuery: userQuery,
-                    text: embeddingText,
-                    firstAddedTimestamp: new Date().toISOString()
-                };
-
-                vectors.push({
-                    id: imdbID,
-                    metadata: metadata
-                });
-
-                console.log(`Prepared new movie: ${movie.Title}`);
+      const vectors = [];
+      
+      for (const movie of movieDetails) {
+        if (movie.Response === 'True') {
+          const imdbID = movie.imdbID;
+          const exists = await checkMovieExists(imdbID);
+          if (exists) continue;
+  
+          vectors.push({
+            id: imdbID,
+            text: `${movie.Title} (${movie.Year}). ${movie.Plot}. Genre: ${movie.Genre || 'N/A'}`, // Top-level
+            metadata: {
+              title: movie.Title,
+              year: movie.Year,
+              plot: movie.Plot,
+              imdbID: imdbID,
+              originalQuery: userQuery,
+              firstAddedTimestamp: new Date().toISOString()
             }
+          });
         }
-
-        if (vectors.length > 0) {
-            await index.upsert(vectors);
-            console.log(`Stored ${vectors.length} new movies successfully`);
-        } else {
-            console.log("No new movies to store");
-        }
+      }
+      
+      if (vectors.length > 0) {
+        await index.upsert(vectors); // Requires Pinecone >= 3.0.0
+        console.log(`Stored ${vectors.length} movies`);
+      }
     } catch (error) {
-        console.error("Vector DB Error:", error);
+      console.error("Vector DB Error:", error);
     }
-}
+  }
+  
 
 
 // Function to query similar movies from vector DB
