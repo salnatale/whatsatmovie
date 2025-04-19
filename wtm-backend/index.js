@@ -5,7 +5,7 @@ const axios = require('axios');
 const express = require('express');
 const API_KEY = process.env.OMDB_API_KEY;
 const fs = require('fs');
-const { addFlickionaryRoutes } = require('./flicktionary');
+const { addFlicktionaryRoutes } = require('./flicktionary');
 const fetch = require('node-fetch');
 
 let index;
@@ -17,7 +17,7 @@ try {
         apiKey: process.env.PINECONE_API_KEY,
         fetchApi: fetch,
     });
-    index = pc.Index(process.env.PINECONE_INDEX);
+    index = pc.index(process.env.PINECONE_INDEX);
 
     console.log("Connected to Pinecone index:", process.env.PINECONE_INDEX);
 } catch (error) {
@@ -233,7 +233,9 @@ app.post('/api/generate-text', async (req, res) => {
             }
         });
         // Store the successful query and movie data in the vector database
-        await storeInVectorDB(userDescription, validMovies);
+        for (const movie of validMovies) {
+            await storeInVectorDB(userDescription,movie);
+          }
         res.json({ success: true, movies: validMovies });
 
     } catch (error) {
@@ -260,7 +262,7 @@ app.post('/api/similar-queries', async (req, res) => {
 });
 
 // Add the Flicktionary routes
-addFlickionaryRoutes(app, index);
+addFlicktionaryRoutes(app, index);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

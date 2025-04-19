@@ -1,184 +1,166 @@
-// flicktionary.js - Our Semantle-style movie guessing game
-const fetch = require('node-fetch');
-// Function to select a random movie from the vector database
-async function selectDailyMovie(index) {
-    try {
-        // Get all movies from the vector DB
-        const allMovies = await getAllMovies(index);
-        
-        // If no movies in DB, return a default movie
-        if (!allMovies || allMovies.length === 0) {
-            return {
-                imdbID: "tt0111161",
-                title: "The Shawshank Redemption",
-                year: "1994",
-                plot: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency."
-            };
-        }
-        
-        // Create a pseudorandom but deterministic selection based on the date
-        const today = new Date();
-        const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-        
-        // Create a simple hash of the date string to use as our random seed
-        let hash = 0;
-        for (let i = 0; i < dateString.length; i++) {
-            hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
-            hash |= 0; // Convert to 32bit integer
-        }
-        
-        // Use the hash to select a movie
-        const movieIndex = Math.abs(hash) % allMovies.length;
-        return allMovies[movieIndex].metadata;
-        
-    } catch (error) {
-        console.error("Error selecting daily movie:", error);
-        throw error;
-    }
-}
+// flicktionary.js — integrated‐inference version with descriptive logging
+const DEFAULT_MOVIE = {
+    imdbID: "tt0111161",
+    title: "The Shawshank Redemption",
+    year: "1994",
+    plot: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency."
+};
 
-// Helper function to get all movies from the vector DB
-async function getAllMovies(index, limit = 100) {
+/**
+ * Grab “all” movies by doing a non-empty text search with a large topK.
+ */
+async function getAllMovies(index, limit = 1000) {
+    console.log(`getAllMovies: querying up to ${limit} movie records...`);
     try {
-        // Fetch all vectors (note: this might not be efficient for large datasets)
-        const allVectors = await index.fetch({
-            ids: [], // Empty array to fetch all vectors
-            limit: limit
+        const res = await index.searchRecords({
+            query: {
+                topK: limit,
+                inputs: { text: "the" }  // any non‑empty text to satisfy embedder
+            },
+            fields: ["imdbID", "title", "year", "plot"]
         });
-        
-        return Object.values(allVectors.vectors).map(vector => ({
-            id: vector.id,
-            metadata: vector.metadata
+
+        const matches = res.matches || [];
+        console.log(`getAllMovies: retrieved ${matches.length} movie records`);
+        return matches.map(m => ({
+            id: m.id,
+            metadata: {
+                imdbID: m.fields.imdbID,
+                title: m.fields.title,
+                year: m.fields.year,
+                plot: m.fields.plot
+            }
         }));
-    } catch (error) {
-        console.error("Error fetching all movies:", error);
+    } catch (err) {
+        console.error("getAllMovies: Error fetching all movies:", err);
         return [];
     }
 }
 
-// Function to calculate similarity between user input and secret movie
-async function calculateSimilarity(index, userInput, secretMovie) {
+/**
+ * Pick today’s movie by hashing the date.
+ */
+async function selectDailyMovie(index) {
+    console.log("selectDailyMovie: fetching all movies to pick today's title...");
     try {
-        // Use Pinecone's similarity search to compare the user input to the secret movie
-        const queryResults = await index.query({
-            text: userInput,
-            filter: { imdbID: { $eq: secretMovie.imdbID } },
-            topK: 1,
-            includeMetadata: true
-        });
-        
-        if (!queryResults.matches || queryResults.matches.length === 0) {
-            return {
-                similarity: 0,
-                proximity: "cold"
-            };
+        const all = await getAllMovies(index);
+        if (!all.length) {
+            console.log("selectDailyMovie: no movies found, using DEFAULT_MOVIE");
+            return DEFAULT_MOVIE;
         }
-        
-        // Get the similarity score from the results
-        const similarityScore = queryResults.matches[0].score * 100; // Convert to percentage
-        
-        // Define proximity based on similarity score
-        let proximity;
-        if (similarityScore < 15) {
-            proximity = "cold";
-        } else if (similarityScore < 30) {
-            proximity = "cool";
-        } else if (similarityScore < 45) {
-            proximity = "warm";
-        } else if (similarityScore < 70) {
-            proximity = "hot";
-        } else {
-            proximity = "very hot";
+
+        console.log(`selectDailyMovie: ${all.length} movies available for selection`);
+        const d = new Date();
+        const ds = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        console.log(`selectDailyMovie: date string for hashing: ${ds}`);
+        let h = 0;
+        for (let i = 0; i < ds.length; i++) {
+            h = ((h << 5) - h) + ds.charCodeAt(i);
+            h |= 0;
         }
-        
-        return {
-            similarity: similarityScore.toFixed(2),
-            proximity: proximity
-        };
-        
-    } catch (error) {
-        console.error("Error calculating similarity:", error);
-        throw error;
+        const pick = Math.abs(h) % all.length;
+        console.log(`selectDailyMovie: hash result ${h}, selected index ${pick}`);
+        return all[pick].metadata;
+    } catch (err) {
+        console.error("selectDailyMovie: Error selecting daily movie:", err);
+        return DEFAULT_MOVIE;
     }
 }
 
-// Add Flicktionary routes to an Express app
-function addFlickionaryRoutes(app, index) {
-    // Get today's movie (admin only or for testing)
-    app.get('/api/flicktionary/today', async (req, res) => {
-        try {
-            const dailyMovie = await selectDailyMovie(index);
-            // For testing only - in production don't send the movie details directly
-            res.json({ success: true, movie: dailyMovie });
-        } catch (error) {
-            console.error("Error getting daily movie:", error);
-            res.status(500).json({ error: 'Failed to get daily movie' });
-        }
-    });
-    
-    // Submit a guess
-    app.post('/api/flicktionary/guess', async (req, res) => {
-        try {
-            const { guess } = req.body;
-            
-            if (!guess) {
-                return res.status(400).json({ error: 'Guess is required' });
+/**
+ * Run a text‐based semantic search for the user’s guess,
+ * then find the secret movie’s score in the hits.
+ */
+async function calculateSimilarity(index, userInput, secret) {
+    console.log(`calculateSimilarity: computing similarity for guess: "${userInput}"`);
+    try {
+        const res = await index.searchRecords({
+            query: {
+                inputs: { text: userInput },
+                topK: 100
             }
-            
-            const dailyMovie = await selectDailyMovie(index);
-            const result = await calculateSimilarity(index, guess, dailyMovie);
-            
-            // Check if the guess is the correct movie title
-            const isCorrect = guess.toLowerCase() === dailyMovie.title.toLowerCase();
-            
-            res.json({
-                success: true,
-                similarity: result.similarity,
-                proximity: result.proximity,
-                correct: isCorrect,
-                // Only include movie details if they got it correct
-                movie: isCorrect ? dailyMovie : null
-            });
-            
-        } catch (error) {
-            console.error("Error processing guess:", error);
-            res.status(500).json({ error: 'Failed to process guess' });
-        }
+        });
+
+        const hits = res.matches || [];
+        console.log(`calculateSimilarity: received ${hits.length} search hits`);
+        const hit = hits.find(m => m.id === secret.imdbID);
+        const raw = (hit?.score ?? hit?._score ?? 0);
+        const score = raw * 100;
+        console.log(`calculateSimilarity: raw score for secret movie (${secret.imdbID}) = ${raw}, similarity% = ${score.toFixed(2)}`);
+
+        let proximity;
+        if (score < 15) proximity = "cold";
+        else if (score < 30) proximity = "cool";
+        else if (score < 45) proximity = "warm";
+        else if (score < 70) proximity = "hot";
+        else proximity = "very hot";
+        console.log(`calculateSimilarity: proximity level = ${proximity}`);
+
+        return {
+            similarity: score.toFixed(2),
+            proximity
+        };
+    } catch (err) {
+        console.error("calculateSimilarity: Error calculating similarity:", err);
+        return { similarity: 0, proximity: "cold" };
+    }
+}
+
+/**
+ * Attach the four Flicktionary endpoints with logging.
+ */
+function addFlicktionaryRoutes(app, index) {
+    app.get('/api/flicktionary/today', async (req, res) => {
+        console.log("[ROUTE] GET /api/flicktionary/today");
+        const movie = await selectDailyMovie(index);
+        console.log("[ROUTE] Today's movie:", movie.title);
+        res.json({ success: true, movie });
     });
-    
-    // Get a hint (e.g., first letter, genre, year, etc.)
+
+    app.post('/api/flicktionary/guess', async (req, res) => {
+        console.log("[ROUTE] POST /api/flicktionary/guess", req.body);
+        const { guess } = req.body;
+        if (!guess) {
+            console.warn("[ROUTE] No guess provided");
+            return res.status(400).json({ error: 'Guess is required' });
+        }
+
+        const secret = await selectDailyMovie(index);
+        const { similarity, proximity } = await calculateSimilarity(index, guess, secret);
+        const correct = guess.trim().toLowerCase() === secret.title.toLowerCase();
+        console.log(`Guess result: correct=${correct}, similarity=${similarity}, proximity=${proximity}`);
+
+        res.json({
+            success: true,
+            similarity,
+            proximity,
+            correct,
+            movie: correct ? secret : null
+        });
+    });
+
     app.get('/api/flicktionary/hint', async (req, res) => {
-        try {
-            const dailyMovie = await selectDailyMovie(index);
-            
-            // Create a hint that doesn't give away too much
-            const hint = {
-                firstLetter: dailyMovie.title.charAt(0),
-                year: dailyMovie.year,
-                length: dailyMovie.title.length
-            };
-            
-            res.json({ success: true, hint });
-        } catch (error) {
-            console.error("Error getting hint:", error);
-            res.status(500).json({ error: 'Failed to get hint' });
-        }
+        console.log("[ROUTE] GET /api/flicktionary/hint");
+        const m = await selectDailyMovie(index);
+        const hint = {
+            firstLetter: m.title.charAt(0),
+            year: m.year,
+            length: m.title.length
+        };
+        console.log("[ROUTE] Hint for today's movie:", hint);
+        res.json({ success: true, hint });
     });
-    
-    // Give up and get the answer
+
     app.get('/api/flicktionary/give-up', async (req, res) => {
-        try {
-            const dailyMovie = await selectDailyMovie(index);
-            res.json({ success: true, movie: dailyMovie });
-        } catch (error) {
-            console.error("Error getting answer:", error);
-            res.status(500).json({ error: 'Failed to get answer' });
-        }
+        console.log("[ROUTE] GET /api/flicktionary/give-up");
+        const movie = await selectDailyMovie(index);
+        console.log("[ROUTE] Revealing today's movie:", movie.title);
+        res.json({ success: true, movie });
     });
 }
 
 module.exports = {
     selectDailyMovie,
     calculateSimilarity,
-    addFlickionaryRoutes
+    addFlicktionaryRoutes
 };
