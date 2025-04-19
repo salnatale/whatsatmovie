@@ -11,17 +11,17 @@ const fetch = require('node-fetch');
 try {
     const { Pinecone } = require('@pinecone-database/pinecone');
     console.log("Pinecone SDK version:", require('@pinecone-database/pinecone/package.json').version);
-    
+
     const pc = new Pinecone({
-      apiKey: process.env.PINECONE_API_KEY,
-      fetchApi: fetch,
+        apiKey: process.env.PINECONE_API_KEY,
+        fetchApi: fetch,
     });
     var index = pc.index(process.env.PINECONE_INDEX);
     console.log("Connected to Pinecone index:", process.env.PINECONE_INDEX);
-  } catch (error) {
+} catch (error) {
     console.error("Error initializing Pinecone:", error);
     // Continue running the server even if Pinecone fails
-  }
+}
 
 async function getMovieDetails(movieName) {
     const encodedMovieName = movieName.replace(/ /g, '+');  // Replacing spaces with '+'
@@ -44,7 +44,7 @@ async function checkMovieExists(imdbID) {
             topK: 1,
             includeMetadata: true
         });
-        
+
         // If we found at least one match, the movie exists
         return queryResponse.matches && queryResponse.matches.length > 0;
     } catch (error) {
@@ -54,61 +54,58 @@ async function checkMovieExists(imdbID) {
 }
 
 // Function to store movie info and query in vector DB (using Pinecone's auto-embedding)
+// Function to store movie info and query in vector DB
 async function storeInVectorDB(userQuery, movieDetails) {
     try {
-        // For each movie, create a record in Pinecone (if it doesn't already exist)
+        // For each movie, create a record in Pinecone
+        const vectors = [];
+
         for (const movie of movieDetails) {
             if (movie.Response === 'True') {
                 const imdbID = movie.imdbID;
-                
-                // Check if this movie already exists in our database
-                const movieExists = await checkMovieExists(imdbID);
-                
-                if (!movieExists) {
-                    // Use the imdbID as the unique identifier (without timestamp)
-                    const uniqueId = imdbID;
-                    
-                    // Prepare metadata
-                    const metadata = {
-                        title: movie.Title,
-                        year: movie.Year,
-                        plot: movie.Plot,
-                        imdbID: movie.imdbID,
-                        query: userQuery,
-                        firstAddedTimestamp: new Date().toISOString()
-                    };
-                    
-                    // Upsert the record into Pinecone - no need to create embeddings separately
-                    // Pinecone will auto-embed the text field
-                    await index.upsert([{
-                        id: uniqueId,
-                        text: userQuery, // This will be automatically embedded by Pinecone
-                        metadata: metadata
-                    }]);
-                    
-                    console.log(`Stored new movie in Pinecone: ${movie.Title}`);
-                } else {
-                    console.log(`Movie already exists in database: ${movie.Title}`);
-                }
+
+                // Prepare metadata
+                const metadata = {
+                    title: movie.Title,
+                    year: movie.Year,
+                    plot: movie.Plot,
+                    imdbID: movie.imdbID,
+                    query: userQuery,
+                    firstAddedTimestamp: new Date().toISOString()
+                };
+
+                // Create the vector object
+                vectors.push({
+                    id: imdbID,
+                    metadata: metadata,
+                    text: userQuery  // For auto-embedding serverless indexes
+                });
+
+                console.log(`Preparing to store movie in Pinecone: ${movie.Title}`);
             }
+        }
+
+        if (vectors.length > 0) {
+            // Upsert all vectors at once
+            await index.upsert(vectors);
+            console.log(`Successfully stored ${vectors.length} movies in Pinecone`);
         }
     } catch (error) {
         console.error("Error storing in vector DB:", error);
-        // Don't throw here, just log the error
-        // We don't want to break the main functionality if vector storage fails
+        console.error("Error details:", JSON.stringify(error, null, 2));
     }
 }
+
 // Function to query similar movies from vector DB
 async function querySimilarMovies(userQuery, limit = 5) {
     try {
-        const queryEmbedding = await createEmbedding(userQuery);
-        
+        // For auto-embedding serverless indexes
         const results = await index.query({
-            vector: queryEmbedding,
+            text: userQuery,
             topK: limit,
             includeMetadata: true
         });
-        
+
         return results.matches.map(match => ({
             score: match.score,
             metadata: match.metadata
@@ -252,13 +249,13 @@ app.post('/api/generate-text', async (req, res) => {
 app.post('/api/similar-queries', async (req, res) => {
     try {
         const { query, limit = 5 } = req.body;
-        
+
         if (!query) {
             return res.status(400).json({ error: 'Query is required' });
         }
-        
+
         const similarQueries = await querySimilarMovies(query, limit);
-        
+
         res.json({ success: true, results: similarQueries });
     } catch (error) {
         console.error("Error getting similar queries:", error);
