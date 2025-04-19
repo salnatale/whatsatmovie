@@ -9,8 +9,7 @@ const fs = require('fs');
 // init pinecone
 const pinecone = new Pinecone({
     apiKey: process.env.PINECONE_API_KEY,
-    environment: process.env.PINECONE_ENVIRONMENT,
-    fetch: global.fetch // Use built-in fetch for Node.js 18+
+    fetchApi: global.fetch // Use fetchApi instead of fetch
   });
 // Initialize the index - replace 'movie-embeddings' with your preferred index name
 const index = pinecone.index(process.env.PINECONE_INDEX);
