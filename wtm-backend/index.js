@@ -38,22 +38,27 @@ function hasMultipleTitles(inputText) {
 // Check if the movie already exists in the database
 async function checkMovieExists(imdbID) {
     try {
-        // Query using the movie's imdbID in metadata filter
-        const queryResponse = await index.query({
-            filter: {
-                imdbID: { $eq: imdbID }
-            },
-            topK: 1,
-            includeMetadata: true
-        });
-
-        // If we found at least one match, the movie exists
-        return queryResponse.matches && queryResponse.matches.length > 0;
-    } catch (error) {
-        console.error("Error checking if movie exists:", error);
-        return false; // Assume it doesn't exist if there's an error
+      const { matches } = await index.search({
+        namespace: process.env.PINECONE_NAMESPACE || "",
+  
+        // this object maps to the `search_records` API
+        query: {
+          inputs: { text: "" },         // dummy text → embeds to a vector
+          topK: 1,                      // we only need to know if at least one exists
+          filter: { imdbID: { $eq: imdbID } }
+        },
+  
+        // you can omit metadata/values if you don’t need them
+        includeMetadata: false,
+        includeValues:   false
+      });
+  
+      return matches.length > 0;
+    } catch (err) {
+      console.error("Error checking if movie exists:", err);
+      return false;
     }
-}
+  }
 
 // Function to store movie info and query in vector DB (using Pinecone's auto-embedding)
 async function storeInVectorDB(userQuery, movieDetails) {
@@ -233,9 +238,7 @@ app.post('/api/generate-text', async (req, res) => {
             }
         });
         // Store the successful query and movie data in the vector database
-        for (const movie of validMovies) {
-            await storeInVectorDB(userDescription,movie);
-          }
+        await storeInVectorDB(userDescription, validMovies);
         res.json({ success: true, movies: validMovies });
 
     } catch (error) {
