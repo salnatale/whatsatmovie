@@ -6,12 +6,15 @@ const express = require('express');
 const API_KEY = process.env.OMDB_API_KEY;
 const fs = require('fs');
 const { addFlickionaryRoutes } = require('./flicktionary');
+const fetch = require('node-fetch');
+
 try {
     const { Pinecone } = require('@pinecone-database/pinecone');
     console.log("Pinecone SDK version:", require('@pinecone-database/pinecone/package.json').version);
     
     const pc = new Pinecone({
-      apiKey: process.env.PINECONE_API_KEY
+      apiKey: process.env.PINECONE_API_KEY,
+      fetchApi: fetch,
     });
     var index = pc.index(process.env.PINECONE_INDEX);
     console.log("Connected to Pinecone index:", process.env.PINECONE_INDEX);
