@@ -8,6 +8,7 @@ const fs = require('fs');
 const { addFlickionaryRoutes } = require('./flicktionary');
 const fetch = require('node-fetch');
 
+let index;
 try {
     const { Pinecone } = require('@pinecone-database/pinecone');
     console.log("Pinecone SDK version:", require('@pinecone-database/pinecone/package.json').version);
@@ -16,7 +17,8 @@ try {
         apiKey: process.env.PINECONE_API_KEY,
         fetchApi: fetch,
     });
-    const index = pc.Index(process.env.PINECONE_INDEX);
+    index = pc.Index(process.env.PINECONE_INDEX);
+    
     console.log("Connected to Pinecone index:", process.env.PINECONE_INDEX);
 } catch (error) {
     console.error("Error initializing Pinecone:", error);
