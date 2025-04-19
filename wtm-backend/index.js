@@ -3,19 +3,22 @@ const cors = require('cors');
 const OpenAI = require('openai');
 const axios = require('axios');
 const express = require('express');
-const { Pinecone } = require('@pinecone-database/pinecone');
 const API_KEY = process.env.OMDB_API_KEY;
 const fs = require('fs');
-
-const fetch = require('node-fetch'); 
 const { addFlickionaryRoutes } = require('./flicktionary');
-// init pinecone
-const pinecone = new Pinecone({
-    apiKey: process.env.PINECONE_API_KEY,
-    fetchApi: fetch // Use fetchApi instead of fetch
-  });
-// Initialize the index - replace 'movie-embeddings' with your preferred index name
-const index = pinecone.index(process.env.PINECONE_INDEX);
+try {
+    const { Pinecone } = require('@pinecone-database/pinecone');
+    console.log("Pinecone SDK version:", require('@pinecone-database/pinecone/package.json').version);
+    
+    const pc = new Pinecone({
+      apiKey: process.env.PINECONE_API_KEY
+    });
+    var index = pc.index(process.env.PINECONE_INDEX);
+    console.log("Connected to Pinecone index:", process.env.PINECONE_INDEX);
+  } catch (error) {
+    console.error("Error initializing Pinecone:", error);
+    // Continue running the server even if Pinecone fails
+  }
 
 async function getMovieDetails(movieName) {
     const encodedMovieName = movieName.replace(/ /g, '+');  // Replacing spaces with '+'
