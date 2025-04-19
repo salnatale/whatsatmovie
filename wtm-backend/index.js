@@ -3,8 +3,16 @@ const cors = require('cors');
 const OpenAI = require('openai');
 const axios = require('axios');
 const express = require('express');
+const { Pinecone } = require('@pinecone-database/pinecone');
 const API_KEY = process.env.OMDB_API_KEY;
 const fs = require('fs');
+// init pinecone
+const pinecone = new Pinecone({
+    apiKey: process.env.PINECONE_API_KEY,
+});
+// Initialize the index - replace 'movie-embeddings' with your preferred index name
+const index = pinecone.index(process.env.PINECONE_INDEX);
+
 async function getMovieDetails(movieName) {
     const encodedMovieName = movieName.replace(/ /g, '+');  // Replacing spaces with '+'
 
@@ -15,6 +23,91 @@ function hasMultipleTitles(inputText) {
     const regexPattern = /\d\./;
     return regexPattern.test(inputText);
 }
+// Check if the movie already exists in the database
+async function checkMovieExists(imdbID) {
+    try {
+        // Query using the movie's imdbID in metadata filter
+        const queryResponse = await index.query({
+            filter: {
+                imdbID: { $eq: imdbID }
+            },
+            topK: 1,
+            includeMetadata: true
+        });
+        
+        // If we found at least one match, the movie exists
+        return queryResponse.matches && queryResponse.matches.length > 0;
+    } catch (error) {
+        console.error("Error checking if movie exists:", error);
+        return false; // Assume it doesn't exist if there's an error
+    }
+}
+
+// Function to store movie info and query in vector DB (using Pinecone's auto-embedding)
+async function storeInVectorDB(userQuery, movieDetails) {
+    try {
+        // For each movie, create a record in Pinecone (if it doesn't already exist)
+        for (const movie of movieDetails) {
+            if (movie.Response === 'True') {
+                const imdbID = movie.imdbID;
+                
+                // Check if this movie already exists in our database
+                const movieExists = await checkMovieExists(imdbID);
+                
+                if (!movieExists) {
+                    // Use the imdbID as the unique identifier (without timestamp)
+                    const uniqueId = imdbID;
+                    
+                    // Prepare metadata
+                    const metadata = {
+                        title: movie.Title,
+                        year: movie.Year,
+                        plot: movie.Plot,
+                        imdbID: movie.imdbID,
+                        query: userQuery,
+                        firstAddedTimestamp: new Date().toISOString()
+                    };
+                    
+                    // Upsert the record into Pinecone - no need to create embeddings separately
+                    // Pinecone will auto-embed the text field
+                    await index.upsert([{
+                        id: uniqueId,
+                        text: userQuery, // This will be automatically embedded by Pinecone
+                        metadata: metadata
+                    }]);
+                    
+                    console.log(`Stored new movie in Pinecone: ${movie.Title}`);
+                } else {
+                    console.log(`Movie already exists in database: ${movie.Title}`);
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Error storing in vector DB:", error);
+        // Don't throw here, just log the error
+        // We don't want to break the main functionality if vector storage fails
+    }
+}
+// Function to query similar movies from vector DB
+async function querySimilarMovies(userQuery, limit = 5) {
+    try {
+        const queryEmbedding = await createEmbedding(userQuery);
+        
+        const results = await index.query({
+            vector: queryEmbedding,
+            topK: limit,
+            includeMetadata: true
+        });
+        
+        return results.matches.map(match => ({
+            score: match.score,
+            metadata: match.metadata
+        }));
+    } catch (error) {
+        console.error("Error querying vector DB:", error);
+        return [];
+    }
+}
 const app = express();
 const PORT = process.env.PORT
 const GPT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
@@ -22,14 +115,15 @@ const GPT_API_KEY = process.env.GPT_API_KEY
 const openai = new OpenAI({ apiKey: GPT_API_KEY });
 
 app.use(express.json());
-
-
 app.use(cors()); // Use CORS middleware
 
 app.post('/api/generate-text', async (req, res) => {
     try {
         const userDescription = req.body.prompt;
         console.log("Input:", userDescription)
+        // // check similar past queries
+        // const similarQueries = await querySimilarMovies(userDescription, 3);
+        // console.log("Similar Queries:", similarQueries);
 
         // Constructing the specific prompt for the model
         const fullPrompt = `
@@ -41,16 +135,6 @@ app.post('/api/generate-text', async (req, res) => {
             messages: [{ "role": "system", "content": `${fullPrompt}` },
             { "role": "user", "content": `${userDescription}` }],
         });
-        // const response = await axios.post(GPT_API_ENDPOINT, {
-        //     model: "gpt-3.5-turbo", // or another model of your choice
-        //     prompt: fullPrompt,
-        //     max_tokens: 150
-        // }, {
-        //     headers: {
-        //         'Authorization': `Bearer ${GPT_API_KEY}`,
-        //         'Content-Type': 'application/json'
-        //     }
-        // });
         console.log("Raw API Response:", response);
 
 
@@ -76,6 +160,7 @@ app.post('/api/generate-text', async (req, res) => {
         // res.json({ text: titles.join(', ') }); // Sending back the joined list of movie titles
         const movieDetailsPromises = titles.map(title => getMovieDetails(title));
         const allMovieDetails = await Promise.all(movieDetailsPromises);
+
 
         // Check if no valid movies were found
         if (!titles.length || allMovieDetails.every(detail => detail.Response === 'False')) {
@@ -144,12 +229,30 @@ app.post('/api/generate-text', async (req, res) => {
                 console.log('Valid Movie Details:', details);
             }
         });
-
+        // Store the successful query and movie data in the vector database
+        await storeInVectorDB(userDescription, validMovies);
         res.json({ success: true, movies: validMovies });
 
     } catch (error) {
         console.error("Server Error:", error);
         res.status(500).json({ error: 'Failed to generate text' });
+    }
+});
+// Add a new endpoint to get similar movie queries
+app.post('/api/similar-queries', async (req, res) => {
+    try {
+        const { query, limit = 5 } = req.body;
+        
+        if (!query) {
+            return res.status(400).json({ error: 'Query is required' });
+        }
+        
+        const similarQueries = await querySimilarMovies(query, limit);
+        
+        res.json({ success: true, results: similarQueries });
+    } catch (error) {
+        console.error("Error getting similar queries:", error);
+        res.status(500).json({ error: 'Failed to fetch similar queries' });
     }
 });
 
