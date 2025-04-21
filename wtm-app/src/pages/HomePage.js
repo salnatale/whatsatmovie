@@ -16,12 +16,23 @@ function RandomQueriesCarousel() {
     useEffect(() => {
         (async () => {
           const apiUrl = process.env.REACT_APP_API_URL || '';
+          console.log("[RandomQueriesCarousel] Fetching random queries from API:", apiUrl);
+
           try {
             const resp = await fetch(`${apiUrl}/api/flicktionary/random`);
+            console.log("[RandomQueriesCarousel] API Response Status:", resp.status);
+
+            if (!resp.ok) {
+              console.error("[RandomQueriesCarousel] API Response Error:", resp.statusText);
+              return;
+            }
+
             const { items } = await resp.json();
+            console.log("[RandomQueriesCarousel] Fetched Items:", items);
+
             setItems(items);
           } catch (err) {
-            console.error("Carousel load failed:", err);
+            console.error("[RandomQueriesCarousel] Carousel load failed:", err);
           }
         })();
       }, []);
