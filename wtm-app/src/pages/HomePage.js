@@ -278,6 +278,13 @@ function HomePage() {
     // };
 
     return (<div className='App'>
+        <div className='App' style={{ position: 'relative' }}>
+      {/* 👉 Flicktionary Ad */}
+      <img
+        src="/flicktionaryad.png"
+        alt="Try our new game: Flicktionary!"
+        className="flick-ad"
+      /></div>
          <RandomQueriesCarousel />
         <Modal show={showModal} close={closeModal}>
             <h2>Welcome to: Whats 'at Movie?</h2>

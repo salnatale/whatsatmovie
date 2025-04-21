@@ -507,3 +507,18 @@ h1 {
 
   }
 }
+.flick-ad {
+  position: absolute;
+  /* vertical: 5% down from the top of .App (or roughly under your header text) */
+  top: -75px;
+  /* horizontal: 8% in from the left edge of .App */
+  left: 84%;
+
+  /* size will never go below 120px, never above 200px, 
+     but otherwise sit at 12vw (12% of viewport‐width) */
+  width: clamp(120px, 12vw, 200px);
+  height: auto;
+
+  z‑index: 1000;
+  pointer‑events: none;
+}
