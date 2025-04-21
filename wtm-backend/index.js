@@ -110,7 +110,7 @@ const corsOptions = {
   };
 
 app.use(express.json());
-app.use(corsOptions); // Use CORS middleware
+app.use(cors(corsOptions)); // Use CORS middleware
 
 app.post('/api/generate-text', async (req, res) => {
     try {
