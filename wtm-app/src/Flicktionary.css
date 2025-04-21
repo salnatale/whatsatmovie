@@ -143,3 +143,17 @@
 .game-instructions h3 {
     margin-top: 0;
 }
+/* subtly darken whatever the base proximity color is */
+
+/* or, for a subtle overlay approach (works even if filter isn’t desired): */
+.guesses-table tr.recent td {
+    position: relative;
+  }
+  .guesses-table tr.recent td::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(103, 91, 54, 0.2); /* white wash */
+    pointer-events: none;
+  }
+  

@@ -1,9 +1,100 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // import { Banner } from "exoclick-react";
 import '../App.css';
 import '../Modal.css'; // Make sure to create a corresponding CSS file for styling
+import '../RandomQueriesCarousel.css';  // Create this file beside it
 
-
+function RandomQueriesCarousel() {
+    const [items, setItems] = useState([]);
+    const containerRef   = useRef();
+    const scrollPosRef   = useRef(0);
+    const isDraggingRef  = useRef(false);
+    const startXRef      = useRef(0);
+    const startScrollRef = useRef(0);
+  
+    // 1) Fetch 10 random query+imdbID
+    useEffect(() => {
+        (async () => {
+          const apiUrl = process.env.REACT_APP_API_URL || '';
+          try {
+            const resp = await fetch(`${apiUrl}/api/flicktionary/random`);
+            const { items } = await resp.json();
+            setItems(items);
+          } catch (err) {
+            console.error("Carousel load failed:", err);
+          }
+        })();
+      }, []);
+  
+    // 2) Auto‑scroll loop
+    useEffect(() => {
+      const c = containerRef.current;
+      if (!c || items.length === 0) return;
+      const halfWidth = () => c.scrollWidth / 2;
+      let raf;
+      function step() {
+        if (!isDraggingRef.current) {
+          scrollPosRef.current += 0.3;                // slow scroll
+          if (scrollPosRef.current >= halfWidth()) {
+            scrollPosRef.current -= halfWidth();
+          }
+          c.scrollLeft = scrollPosRef.current;
+        }
+        raf = requestAnimationFrame(step);
+      }
+      raf = requestAnimationFrame(step);
+      return () => cancelAnimationFrame(raf);
+    }, [items]);
+  
+    // 3) Drag handlers
+    const onMouseDown = e => {
+      const c = containerRef.current;
+      isDraggingRef.current = true;
+      startXRef.current      = e.pageX - c.offsetLeft;
+      startScrollRef.current = c.scrollLeft;
+    };
+    const onMouseMove = e => {
+      if (!isDraggingRef.current) return;
+      const c = containerRef.current;
+      const x = e.pageX - c.offsetLeft;
+      c.scrollLeft = startScrollRef.current - (x - startXRef.current);
+      scrollPosRef.current = c.scrollLeft;
+    };
+    const onMouseUp = () => {
+      isDraggingRef.current = false;
+    };
+  
+    if (!items.length) return null;
+    // duplicate for seamless loop
+    const display = [...items, ...items];
+    
+  
+    return (
+      <div className="recent-searches-wrapper">
+        <h2 className="recent-searches-title">Recent Searches:</h2>
+        <div
+          className="random-carousel"
+          ref={containerRef}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+          onMouseLeave={onMouseUp}
+        >
+          {display.map((m,i) => (
+            <div className="carousel-item" key={i}>
+              <img
+                className="query-poster"
+                src={m.Poster}
+                alt={m.originalQuery}
+                draggable="false"
+              />
+              <div className="query-text">{m.originalQuery}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
 function HomePage() {
     const [success, setSuccess] = useState(true);
@@ -176,6 +267,7 @@ function HomePage() {
     // };
 
     return (<div className='App'>
+         <RandomQueriesCarousel />
         <Modal show={showModal} close={closeModal}>
             <h2>Welcome to: Whats 'at Movie?</h2>
             <p>Describe the movie you're thinking of in the description box below this pop-up.</p>
