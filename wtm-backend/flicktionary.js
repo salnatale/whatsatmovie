@@ -11,6 +11,37 @@ const OMDB_KEY = process.env.OMDB_API_KEY;
 // Pinecone embed model
 const EMBEDDING_MODEL = "llama-text-embed-v2";
 
+const RANDOM_CACHE_PATH = path.join(__dirname, 'randomCache.json');
+let randomCache = { date: null, items: [] };
+// ---------------------------------------------------------------------
+
+// Try to load yesterday’s cache on startup
+try {
+    randomCache = JSON.parse(fs.readFileSync(RANDOM_CACHE_PATH, 'utf8'));
+  } catch {
+    /* ignore missing or bad cache */
+  }
+  
+  // Helper to rebuild the cache
+  async function regenerateRandom(pc, index) {
+    const all    = await getAllMovies(pc, index);
+    const sample = all.sort(() => 0.5 - Math.random()).slice(0, 10);
+  
+    const detailed = await Promise.all(sample.map(async m => {
+      try {
+        const r = await axios.get('http://www.omdbapi.com/', {
+          params: { i: m.imdbID, apikey: OMDB_KEY }
+        });
+        return { originalQuery: m.originalQuery, imdbID: m.imdbID, Poster: r.data.Poster };
+      } catch {
+        return { originalQuery: m.originalQuery, imdbID: m.imdbID, Poster: '' };
+      }
+    }));
+  
+    randomCache = { date: new Date().toDateString(), items: detailed };
+    fs.writeFileSync(RANDOM_CACHE_PATH, JSON.stringify(randomCache), 'utf8');
+  }
+
 // where we store our daily cache
 const CACHE_PATH = path.join(__dirname, 'dailyCache.json');
 let dailyCache = { date: null };
@@ -136,7 +167,7 @@ async function getDailySecret(pc, index) {
     }
   
     // 2) Cache is missing or stale → regenerate
-  
+
     // pick today's secret movie
     const movie = await selectDailyMovie(pc, index);
   
@@ -255,37 +286,15 @@ function addFlicktionaryRoutes(app, pc, index) {
 // inside addFlicktionaryRoutes(app, pc, index) or similar:
 
 app.get('/api/flicktionary/random', async (req, res) => {
-    try {
-      // 1) grab 10 random metadata records (must include imdbID + originalQuery)
-      const all    = await getAllMovies(pc, index);
-      const sample = all.sort(() => 0.5 - Math.random()).slice(0, 10);
+    const today = new Date().toDateString();
   
-      // 2) fetch posters from OMDb
-      const detailed = await Promise.all(sample.map(async m => {
-        try {
-          const r = await axios.get(`http://www.omdbapi.com/`, {
-            params: { i: m.imdbID, apikey: OMDB_KEY }
-          });
-
-          return {
-            originalQuery: m.originalQuery,
-            imdbID:       m.imdbID,
-            Poster:       r.data.Poster,    // the URL
-          };
-        } catch {
-          return {
-            originalQuery: m.originalQuery,
-            imdbID:       m.imdbID,
-            Poster:       '', // fallback
-          };
-        }
-      }));
-  
-      res.json({ success: true, items: detailed });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ success: false });
+    // Only regenerate if the date has changed since last cache
+    if (randomCache.date !== today) {
+      await regenerateRandom(pc, index);
     }
+  
+    // Return the cached array (no OMDb calls here)
+    res.json({ success: true, items: randomCache.items });
   });
 
   app.post('/api/flicktionary/guess', async (req, res) => {
