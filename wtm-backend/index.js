@@ -101,16 +101,17 @@ const openai = new OpenAI({ apiKey: GPT_API_KEY });
 
 const corsOptions = {
     origin: [
-      'https://whatsatmovie.com', // Your production frontend URL
-      'http://localhost:3000'            // Your development frontend URL
+      'https://whatsatmovie.com',
+      'http://localhost:3000'
     ],
-    methods: ['GET', 'POST'],
-    credentials: true,
-    optionsSuccessStatus: 200
+    methods: ['GET','POST','OPTIONS'],
+    credentials: true
   };
+  
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
 
 app.use(express.json());
-app.use(cors(corsOptions)); // Use CORS middleware
 
 app.post('/api/generate-text', async (req, res) => {
     try {
