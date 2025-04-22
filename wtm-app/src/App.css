@@ -507,6 +507,7 @@ h1 {
 
   }
 }
+
 .flick-ad {
   position: absolute;
   /* vertical: 5% down from the top of .App (or roughly under your header text) */
@@ -577,4 +578,40 @@ h1 {
   font-size: 0.85rem;
   color: #105618;
   font-style: italic;
+}
+
+/* Amazon link CSS */
+.amazon-link {
+  margin-top: 12px;
+}
+
+.amazon-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  background-color: #FF9900;
+  color: #000000;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.amazon-button:hover {
+  background-color: #E88A00;
+  color: #000000;
+  text-decoration: none;
+}
+
+.amazon-button i {
+  margin-right: 6px;
+  font-size: 1.1rem;
+}
+
+.amazon-disclosure {
+  font-size: 0.75rem;
+  color: #777;
+  margin-top: 10px;
 }

@@ -14,6 +14,10 @@ function Footer() {
                         <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
                         <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
                     </form>
+                    <div className="amazon-disclosure">
+  <p>As an Amazon Associate I earn from qualifying purchases.</p>
+</div>
+
                 </div>
             </div >
         </footer>
