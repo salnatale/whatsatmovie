@@ -95,7 +95,7 @@ async function getAllMovies(pc, index, isCorrect = false, limit = 1000) {
       queryParams.filter = {
         isCorrect: { "$eq": true }
       };
-      console.log("Applying filter: only metadata.correct === true");
+      console.log("Applying filter: only metadata.isCorrect === true");
     }
 
     // 4) Run the query

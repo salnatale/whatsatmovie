@@ -99,7 +99,7 @@ async function updateMovieFeedback(imdbID, query) {
         let alreadyCorrect = false;
         try {
             const fetched = await index.fetch({ ids: [imdbID] });
-            alreadyCorrect = fetched.vectors?.[imdbID]?.metadata?.correct === true;
+            alreadyCorrect = fetched.vectors?.[imdbID]?.metadata?.isCorrect === true;
         } catch (fetchErr) {
             console.warn(
                 `Warning: couldn’t fetch metadata for ${imdbID} (assuming correct=false):`,
