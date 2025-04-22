@@ -7,6 +7,10 @@ const openai = new OpenAI({ apiKey: process.env.GPT_API_KEY });
 const axios = require('axios');
 const OMDB_KEY = process.env.OMDB_API_KEY;
 
+// flicktionary.js
+const cors    = require('cors');
+
+
 
 // Pinecone embed model
 const EMBEDDING_MODEL = "llama-text-embed-v2";
@@ -291,8 +295,8 @@ async function calculateSimilarity(pc, index, guess) {
  * Mount routes: use getDailySecret in /today, calculateSimilarity in /guess,
  * and reuse cached movie for /hint & /give-up.
  */
-function addFlicktionaryRoutes(app, pc, index) {
-  app.get('/api/flicktionary/today', async (req, res) => {
+function addFlicktionaryRoutes(app, pc, index,corsOptions) {
+  app.get('/api/flicktionary/today', cors(corsOptions), async (req, res) => {
       const { movie, stats } = await getDailySecret(pc, index);
       // add console logs for debugging
         console.log("[ROUTE] GET /api/flicktionary/today");
