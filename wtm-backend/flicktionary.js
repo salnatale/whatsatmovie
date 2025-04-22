@@ -24,7 +24,7 @@ try {
   
   // Helper to rebuild the cache
   async function regenerateRandom(pc, index) {
-    const all    = await getAllMovies(pc, index);
+    const all    = await getAllMovies(pc, index,true);
     const sample = all.sort(() => 0.5 - Math.random()).slice(0, 10);
   
     const detailed = await Promise.all(sample.map(async m => {
@@ -73,28 +73,45 @@ async function embedText(pc, text) {
 
 // your existing “getAllMovies” & “selectDailyMovie” unchanged…
 
-async function getAllMovies(pc, index, limit = 1000) {
-    console.log(`getAllMovies: querying up to ${limit} movie records…`);
-    try {
-        const embedding = await embedText(pc, "the");    // any non‑empty text
-        console.log("embedding:", embedding);
-        // log embedding values
-        console.log("embedding[0].values:",);
-        const results = await index.query({
-            vector: embedding["data"][0].values,
-            topK: limit,
-            includeMetadata: true,
-            includeValues: false
-        });
+async function getAllMovies(pc, index, isCorrect = false, limit = 1000) {
+  console.log(`getAllMovies: querying up to ${limit} movie records…`);
 
-        const matches = results.matches || [];
-        console.log(`getAllMovies: retrieved ${matches.length} movie records`);
-        return matches.map(m => m.metadata);
-    } catch (err) {
-        console.error("getAllMovies: Error fetching all movies:", err);
-        return [];
+  try {
+    // 1) Get a “dummy” embedding just to drive a full‐scan
+    const embeddingResponse = await embedText(pc, "the");
+    const vector = embeddingResponse.data[0].values;
+    console.log("Embedding vector length:", vector.length);
+
+    // 2) Build the query payload
+    const queryParams = {
+      vector,
+      topK: limit,
+      includeMetadata: true,
+      includeValues: false
+    };
+
+    // 3) If the caller only wants the ones marked correct, add a filter
+    if (isCorrect) {
+      queryParams.filter = {
+        isCorrect: { "$eq": true }
+      };
+      console.log("Applying filter: only metadata.correct === true");
     }
+
+    // 4) Run the query
+    const results = await index.query(queryParams);
+    const matches = results.matches || [];
+    console.log(`getAllMovies: retrieved ${matches.length} movie records`);
+
+    // 5) Return just the metadata payloads
+    return matches.map(m => m.metadata);
+  }
+  catch (err) {
+    console.error("getAllMovies: Error fetching all movies:", err);
+    return [];
+  }
 }
+
 async function selectDailyMovie(pc, index) {
     console.log("selectDailyMovie: fetching all movies to pick today's title…");
     try {

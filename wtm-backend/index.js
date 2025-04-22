@@ -93,6 +93,46 @@ async function querySimilarMovies(userQuery, limit = 5) {
         return [];
     }
 }
+async function updateMovieFeedback(imdbID, query) {
+    try {
+        // === 1) Try to fetch the existing metadata; if fetch fails or returns no content, assume correct = false ===
+        let alreadyCorrect = false;
+        try {
+            const fetched = await index.fetch({ ids: [imdbID] });
+            alreadyCorrect = fetched.vectors?.[imdbID]?.metadata?.correct === true;
+        } catch (fetchErr) {
+            console.warn(
+                `Warning: couldn’t fetch metadata for ${imdbID} (assuming correct=false):`,
+                fetchErr.message
+            );
+            alreadyCorrect = false;
+        }
+
+        // === 2) If the DB already has correct=true, do nothing ===
+        if (alreadyCorrect) {
+            console.log(`Skipping update: ${imdbID} is already marked correct`);
+            return { success: true, message: 'No update needed; already correct' };
+        }
+
+        // === 3) Otherwise, patch only originalQuery (or any other fields you like) ===
+        // Note: we do NOT overwrite "correct" here; we leave it unset or false in the DB.
+        await index.update({
+            id: imdbID,
+            metadata: {
+                isCorrect: true,
+                originalQuery: query,
+            }
+        });
+
+        console.log(`Patched originalQuery for ${imdbID}`);
+        return { success: true };
+    }
+    catch (err) {
+        console.error('Error updating movie feedback:', err);
+        return { success: false, error: err.message };
+    }
+}
+
 const app = express();
 const PORT = process.env.PORT
 const GPT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
@@ -101,15 +141,15 @@ const openai = new OpenAI({ apiKey: GPT_API_KEY });
 
 const corsOptions = {
     origin: [
-      'https://whatsatmovie.com',
-      'http://localhost:3000'
+        'https://whatsatmovie.com',
+        'http://localhost:3000'
     ],
-    methods: ['GET','POST','OPTIONS'],
+    methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true
-  };
-  
-  app.use(cors(corsOptions));
-  app.options('*', cors(corsOptions));
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
@@ -251,6 +291,27 @@ app.post('/api/similar-queries', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch similar queries' });
     }
 });
+app.post('/api/movie-feedback', async (req, res) => {
+    try {
+        const { imdbID, isCorrect, query } = req.body;
+
+        if (!imdbID) {
+            return res.status(400).json({ success: false, message: 'Movie ID is required' });
+        }
+        let updateResult = { success: false };
+        // Update the metadata in Pinecone if isCorrect is true
+        if (isCorrect) {
+            updateResult = await updateMovieFeedback(imdbID, query);
+        }
+
+
+        res.json({ success: true, message: 'Feedback recorded successfully', result: updateResult });
+    } catch (error) {
+        console.error('Error recording feedback:', error);
+        res.status(500).json({ success: false, message: 'Failed to record feedback' });
+    }
+});
+
 
 // Add the Flicktionary routes
 addFlicktionaryRoutes(app, pc, index);

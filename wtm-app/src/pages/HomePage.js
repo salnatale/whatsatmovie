@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../App.css';
 import '../Modal.css'; // Make sure to create a corresponding CSS file for styling
 import '../RandomQueriesCarousel.css';  // Create this file beside it
+import MovieFeedback from '../components/MovieFeedback';
 
 function RandomQueriesCarousel() {
     const [items, setItems] = useState([]);
@@ -351,7 +352,9 @@ function HomePage() {
                                             {renderStars(Number(movie.imdbRating))}
                                             <span> {movie.imdbRating}</span>
                                         </div>
+                                        <MovieFeedback movieId={movie.imdbID} originalQuery={inputText} />
                                     </div>
+                                    
                                 </div>
                             ))}
 
