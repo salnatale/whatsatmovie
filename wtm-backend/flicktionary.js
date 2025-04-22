@@ -83,12 +83,12 @@ async function getAllMovies(pc, index, isCorrect = false, limit = 1000) {
   try {
     // 1) Get a “dummy” embedding just to drive a full‐scan
     const embeddingResponse = await embedText(pc, "the");
-    const vector = embeddingResponse.data[0].values;
+    const vector = embeddingResponse["data"][0].values;
     console.log("Embedding vector length:", vector.length);
 
     // 2) Build the query payload
     const queryParams = {
-      vector,
+      vector: vector,
       topK: limit,
       includeMetadata: true,
       includeValues: false
@@ -103,6 +103,7 @@ async function getAllMovies(pc, index, isCorrect = false, limit = 1000) {
     }
 
     // 4) Run the query
+    console.log("Querying Pinecone index...");
     const results = await index.query(queryParams);
     const matches = results.matches || [];
     console.log(`getAllMovies: retrieved ${matches.length} movie records`);
