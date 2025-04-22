@@ -12,6 +12,26 @@ const { Pinecone } = require('@pinecone-database/pinecone');
 let index;
 let pc;
 
+const app = express();
+const PORT = process.env.PORT
+const GPT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
+const GPT_API_KEY = process.env.GPT_API_KEY
+const openai = new OpenAI({ apiKey: GPT_API_KEY });
+
+const corsOptions = {
+    origin: [
+        'https://whatsatmovie.com',
+        'http://localhost:3000'
+    ],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    credentials: true
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+app.use(express.json());
+
 try {
     console.log("Pinecone SDK version:", require('@pinecone-database/pinecone/package.json').version);
 
@@ -132,26 +152,6 @@ async function updateMovieFeedback(imdbID, query) {
         return { success: false, error: err.message };
     }
 }
-
-const app = express();
-const PORT = process.env.PORT
-const GPT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
-const GPT_API_KEY = process.env.GPT_API_KEY
-const openai = new OpenAI({ apiKey: GPT_API_KEY });
-
-const corsOptions = {
-    origin: [
-        'https://whatsatmovie.com',
-        'http://localhost:3000'
-    ],
-    methods: ['GET', 'POST', 'OPTIONS'],
-    credentials: true
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-
-app.use(express.json());
 
 app.post('/api/generate-text', async (req, res) => {
     try {
