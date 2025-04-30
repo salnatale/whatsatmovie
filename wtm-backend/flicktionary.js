@@ -77,7 +77,7 @@ async function embedText(pc, text) {
 
 // your existing “getAllMovies” & “selectDailyMovie” unchanged…
 
-async function getAllMovies(pc, index, isCorrect = false, limit = 100) {
+async function getAllMovies(pc, index, isCorrect = false, limit = 50) {
   console.log(`Retrieving up to ${limit} movies (correctOnly: ${isCorrect})...`);
 
   try {
@@ -235,7 +235,7 @@ async function getDailySecret(pc, index) {
   }
 
 async function getSimilarityStats(pc, index, secretVec) {
-    const TOP_K = 1000;
+    const TOP_K = 50;
     const results = await index.query({
       vector: secretVec,
       topK:     TOP_K,
