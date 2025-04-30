@@ -110,7 +110,7 @@ async function getAllMovies(pc, index, isCorrect = false, limit = 50) {
 async function selectDailyMovie(pc, index) {
     console.log("selectDailyMovie: fetching all movies to pick today's title…");
     try {
-        const all = await getAllMovies(pc, index);
+        const all = await getAllMovies(pc, index,limit = 10);
         if (!all.length) {
             console.log("selectDailyMovie: no movies found, using DEFAULT_MOVIE");
             return DEFAULT_MOVIE;
