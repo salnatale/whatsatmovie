@@ -286,8 +286,8 @@ async function calculateSimilarity(pc, index, guess) {
  * Mount routes: use getDailySecret in /today, calculateSimilarity in /guess,
  * and reuse cached movie for /hint & /give-up.
  */
-function addFlicktionaryRoutes(app, pc, index,corsOptions) {
-  app.get('/api/flicktionary/today', cors(corsOptions), async (req, res) => {
+function addFlicktionaryRoutes(app, pc, index) {
+  app.get('/api/flicktionary/today', async (req, res) => {
       const { movie, stats } = await getDailySecret(pc, index);
       // add console logs for debugging
         console.log("[ROUTE] GET /api/flicktionary/today");
