@@ -18,17 +18,27 @@ const GPT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 const GPT_API_KEY = process.env.GPT_API_KEY
 const openai = new OpenAI({ apiKey: GPT_API_KEY });
 
-const corsOptions = {
-    origin: [
-        'https://whatsatmovie.com',
-        'http://localhost:3000'
-    ],
-    methods: ['GET', 'POST', 'OPTIONS'],
-    credentials: true
-};
+const allowedOrigins = [
+    'https://whatsatmovie.com',
+    'https://www.whatsatmovie.com',
+    'https://whatsthatmovie.netlify.app',
+    'http://localhost:3000' // for local dev
+];
 
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true
+}));
+
+app.options('*', cors()); // ensure preflight support
 
 app.use(express.json());
 
@@ -65,12 +75,12 @@ async function storeInVectorDB(userQuery, movieDetails) {
         // First, collect movies to potentially upsert
         const movieIdsToCheck = [];
         const vectorsToUpsert = [];
-        
+
         for (const movie of movieDetails) {
             if (movie.Response === 'True') {
                 const imdbID = movie.imdbID;
                 movieIdsToCheck.push(imdbID);
-                
+
                 // Prepare the vector data (but don't upsert yet)
                 vectorsToUpsert.push({
                     id: imdbID,
@@ -84,9 +94,9 @@ async function storeInVectorDB(userQuery, movieDetails) {
                 });
             }
         }
-        
+
         if (movieIdsToCheck.length === 0) return;
-        
+
         // Check which records already exist with isCorrect=true
         let skipIds = new Set();
         try {
@@ -104,10 +114,10 @@ async function storeInVectorDB(userQuery, movieDetails) {
         } catch (fetchErr) {
             console.warn(`Warning: couldn't fetch metadata (continuing without skipping): ${fetchErr.message}`);
         }
-        
+
         // Filter out vectors that should be skipped
         const filteredVectors = vectorsToUpsert.filter(v => !skipIds.has(v.id));
-        
+
         if (filteredVectors.length > 0) {
             await index.upsertRecords(filteredVectors);
             console.log(`Stored ${filteredVectors.length} movies, skipped ${skipIds.size} with isCorrect=true`);
