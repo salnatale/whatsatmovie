@@ -287,7 +287,8 @@ async function calculateSimilarity(pc, index, guess) {
  * and reuse cached movie for /hint & /give-up.
  */
 function addFlicktionaryRoutes(app, pc, index) {
-  app.get('/api/flicktionary/today', async (req, res) => {
+  
+app.get('/api/flicktionary/today', async (req, res) => {
       const { movie, stats } = await getDailySecret(pc, index);
       // add console logs for debugging
         console.log("[ROUTE] GET /api/flicktionary/today");
@@ -295,7 +296,6 @@ function addFlicktionaryRoutes(app, pc, index) {
         console.log("[ROUTE] Movie stats:", stats);
       res.json({ success: true, movie, stats });
   });
-// inside addFlicktionaryRoutes(app, pc, index) or similar:
 
 app.get('/api/flicktionary/random', async (req, res) => {
     const today = new Date().toDateString();
@@ -309,39 +309,39 @@ app.get('/api/flicktionary/random', async (req, res) => {
     res.json({ success: true, items: randomCache.items });
   });
 
-  app.post('/api/flicktionary/guess', async (req, res) => {
-    const { guess } = req.body;
-    if (!guess) return res.status(400).json({ error: 'Guess is required' });
+app.post('/api/flicktionary/guess', async (req, res) => {
+  const { guess } = req.body;
+  if (!guess) return res.status(400).json({ error: 'Guess is required' });
 
-    const { similarity, proximity, movie } =
-      await calculateSimilarity(pc, index, guess);
+  const { similarity, proximity, movie } =
+    await calculateSimilarity(pc, index, guess);
 
-    const correct =
-      guess.trim().toLowerCase() === movie.title.toLowerCase();
+  const correct =
+    guess.trim().toLowerCase() === movie.title.toLowerCase();
 
-    res.json({
-      success: true,
-      similarity,
-      proximity,
-      correct,
-      movie: correct ? movie : null
-    });
+  res.json({
+    success: true,
+    similarity,
+    proximity,
+    correct,
+    movie: correct ? movie : null
   });
+});
 
-  app.get('/api/flicktionary/hint', async (req, res) => {
-    const { movie } = await getDailySecret(pc, index);
-    const hint = {
-      firstLetter: movie.title[0],
-      year:        movie.year,
-      length:      movie.title.length
-    };
-    res.json({ success: true, hint });
-  });
+app.get('/api/flicktionary/hint', async (req, res) => {
+  const { movie } = await getDailySecret(pc, index);
+  const hint = {
+    firstLetter: movie.title[0],
+    year:        movie.year,
+    length:      movie.title.length
+  };
+  res.json({ success: true, hint });
+});
 
-  app.get('/api/flicktionary/give-up', async (req, res) => {
-    const { movie } = await getDailySecret(pc, index);
-    res.json({ success: true, movie });
-  });
+app.get('/api/flicktionary/give-up', async (req, res) => {
+  const { movie } = await getDailySecret(pc, index);
+  res.json({ success: true, movie });
+});
 }
 
 module.exports = {
