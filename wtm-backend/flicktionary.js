@@ -77,38 +77,32 @@ async function embedText(pc, text) {
 
 // your existing “getAllMovies” & “selectDailyMovie” unchanged…
 
-async function getAllMovies(pc, index, isCorrect = false, limit = 1000) {
+async function getAllMovies(pc, index, isCorrect = false, limit = 100) {
   console.log(`Retrieving up to ${limit} movies (correctOnly: ${isCorrect})...`);
+
   try {
-    const allMovies = [];
-    let paginationToken = null;
-    let remaining = limit;
+    const dummyEmbedding = Array.from({ length: 1024 }, () => Math.random()); // Randomized dummy vector
 
-    do {
-      const fetchLimit = Math.min(remaining, 1000);
-      const response = await index.listRecords({
-        limit: fetchLimit,
-        paginationToken,
-        filter: isCorrect ? { isCorrect: { "$eq": true } } : undefined,
-        includeMetadata: true,
-      });
+    const queryParams = {
+      vector: dummyEmbedding,
+      topK: limit,
+      includeMetadata: true,
+      filter: isCorrect ? { isCorrect: { "$eq": true } } : undefined,
+    };
 
-      allMovies.push(...response.records);
-      paginationToken = response.paginationToken;
-      remaining -= response.records.length;
+    const results = await index.query(queryParams);
 
-      if (response.records.length === 0) break; // No more records to fetch
+    const movies = results.matches.map(match => match.metadata);
+    console.log(`Retrieved ${movies.length} movies.`);
 
-    } while (paginationToken && remaining > 0);
-
-    console.log(`Retrieved ${allMovies.length} movies.`);
-    return allMovies;
+    return movies;
 
   } catch (err) {
-    console.error("Critical error fetching records:", err.response?.data || err.message);
+    console.error("Critical error fetching movies:", err.response?.data || err.message);
     throw err;
   }
 }
+
 
 
 

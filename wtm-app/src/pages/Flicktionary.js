@@ -1,8 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import '../Flicktionary.css';
 
+function levenshtein(a, b) {
+    const matrix = [];
+    const lenA = a.length;
+    const lenB = b.length;
+
+    for (let i = 0; i <= lenB; i++) {
+        matrix[i] = [i];
+    }
+    for (let j = 0; j <= lenA; j++) {
+        matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= lenB; i++) {
+        for (let j = 1; j <= lenA; j++) {
+            if (b[i - 1] === a[j - 1]) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j - 1] + 1
+                );
+            }
+        }
+    }
+
+    return matrix[lenB][lenA];
+}
+
 function Flicktionary() {
     const [guess, setGuess] = useState('');
+    const [titleGuess, setTitleGuess] = useState('');
     const [guesses, setGuesses] = useState(() => {
         const saved = localStorage.getItem('flicktionary-guesses');
         return saved ? JSON.parse(saved) : [];
@@ -11,26 +41,20 @@ function Flicktionary() {
         const saved = localStorage.getItem('flicktionary-gameWon');
         return saved ? JSON.parse(saved) : false;
     });
-
-    // The daily target movie (for stats & hints)
     const [todayMovie, setTodayMovie] = useState(null);
-    // The movie to reveal when the user wins or gives up
     const [secretMovie, setSecretMovie] = useState(() => {
         const saved = localStorage.getItem('flicktionary-secretMovie');
         return saved ? JSON.parse(saved) : null;
     });
-
     const [loading, setLoading] = useState(false);
     const [hint, setHint] = useState(() => {
         const saved = localStorage.getItem('flicktionary-hint');
         return saved ? JSON.parse(saved) : null;
     });
     const [stats, setStats] = useState(null);
-    // Add this to your state variables
     const [fetchError, setFetchError] = useState(false);
     const [fetchLoading, setFetchLoading] = useState(true);
-    // On mount, fetch today's movie & stats
-    // Then update your useEffect
+
     useEffect(() => {
         (async () => {
             setFetchLoading(true);
@@ -51,7 +75,6 @@ function Flicktionary() {
         })();
     }, []);
 
-    // Persist to localStorage when relevant state changes
     useEffect(() => {
         localStorage.setItem('flicktionary-guesses', JSON.stringify(guesses));
     }, [guesses]);
@@ -101,6 +124,25 @@ function Flicktionary() {
         }
     };
 
+    const handleTitleGuess = () => {
+        if (!titleGuess.trim()) return;
+
+        const normalizedGuess = titleGuess.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+        const normalizedAnswer = todayMovie?.title?.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+        const distance = levenshtein(normalizedGuess, normalizedAnswer);
+        const threshold = Math.ceil(normalizedAnswer.length * 0.2);
+
+        if (distance <= threshold) {
+            setGameWon(true);
+            setSecretMovie(todayMovie);
+        } else {
+            alert(`Not quite! You're ${distance} edits away from the correct title.`);
+        }
+
+        setTitleGuess('');
+    };
+
     const getHint = async () => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL;
@@ -128,7 +170,6 @@ function Flicktionary() {
         }
     };
 
-    // Clears stored game state & reloads for tomorrow
     const resetGame = () => {
         localStorage.removeItem('flicktionary-guesses');
         localStorage.removeItem('flicktionary-gameWon');
@@ -136,17 +177,11 @@ function Flicktionary() {
         localStorage.removeItem('flicktionary-hint');
         window.location.reload();
     };
-    // build the display order:
+
     const displayGuesses = guesses.length > 1
         ? [
-            // always keep the newest guess at the top
             guesses[0],
-            // then sort the remaining guesses by similarity descending
-            ...guesses
-                .slice(1)
-                .sort((a, b) =>
-                    parseFloat(b.similarity) - parseFloat(a.similarity)
-                )
+            ...guesses.slice(1).sort((a, b) => parseFloat(b.similarity) - parseFloat(a.similarity))
         ]
         : guesses;
 
@@ -165,43 +200,71 @@ function Flicktionary() {
                     has {stats.thousandth}%.
                 </p>
             ) : (
-                <p> Error fetching todays movie statistics.</p>
+                <p> Error fetching today's movie statistics.</p>
             )}
 
-            {/* Form until user reveals or wins */}
-            {!secretMovie ? (
-                <form onSubmit={handleSubmit} className="guess-form">
-                    <input
-                        type="text"
-                        value={guess}
-                        onChange={(e) => setGuess(e.target.value)}
-                        placeholder="Describe the movie..."
-                        disabled={loading || gameWon}
-                    />
-                    <button type="submit" disabled={loading || gameWon}>
-                        Guess
-                    </button>
-                </form>
-            ) : (
+            {!secretMovie && (
+                <div className="guess-section">
+                    <h2>Describe the Movie</h2>
+                    <form onSubmit={handleSubmit} className="guess-form">
+                        <input
+                            type="text"
+                            value={guess}
+                            onChange={(e) => setGuess(e.target.value)}
+                            placeholder="Enter a thematic description..."
+                            disabled={loading || gameWon}
+                        />
+                        <button type="submit" disabled={loading || gameWon} className={loading ? 'loading' : ''}>Guess</button>
+                    </form>
+
+                    <h3 className="or-separator">— or —</h3>
+
+                    <h2>Guess the Title</h2>
+                    <div className="title-guess-form">
+                        <input
+                            type="text"
+                            value={titleGuess}
+                            onChange={(e) => setTitleGuess(e.target.value)}
+                            placeholder="Enter the movie title..."
+                            disabled={loading || gameWon}
+                        />
+                        <button
+                            type="button"
+                            onClick={handleTitleGuess}
+                            disabled={loading || gameWon}
+                            className={loading ? 'loading' : ''}
+                        >
+                            Submit Title Guess
+                        </button>
+                    </div>
+
+                    <div className="game-controls">
+                        <button onClick={getHint} disabled={!!hint || loading} className={loading ? 'loading' : ''}>
+                            {loading ? 'Loading Hint...' : 'Hint'}
+                        </button>
+                        <button onClick={giveUp} disabled={loading} className={loading ? 'loading' : ''}>
+                            {loading ? 'Revealing...' : 'Give Up'}
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {secretMovie && (
                 <div className="secret-movie">
                     <h2>{secretMovie.title} ({secretMovie.year})</h2>
                     <p>{secretMovie.plot}</p>
+                    <div className="result-summary">
+                        <strong>You guessed it in {guesses.length} {guesses.length === 1 ? 'guess' : 'guesses'}!</strong>
+                    </div>
                     <button onClick={resetGame}>Play Again Tomorrow</button>
                 </div>
             )}
 
-            {!secretMovie && (
-                <div className="hint-buttons">
-                    <button onClick={getHint} disabled={!!hint}>Hint</button>
-                    <button onClick={giveUp}>Give Up</button>
-                </div>
-            )}
 
             {hint && (
                 <div className="hint-box">
                     <p>
-                        Hint: The movie title starts with "{hint.firstLetter}"
-                        and was released in {hint.year}.
+                        Hint: The movie title starts with "{hint.firstLetter}" and was released in {hint.year}.
                     </p>
                 </div>
             )}
@@ -218,10 +281,7 @@ function Flicktionary() {
                             {displayGuesses.map((g, i) => (
                                 <tr
                                     key={g.number}
-                                    className={
-                                        `proximity-${g.proximity.replace(' ', '-')}` +
-                                        (i === 0 ? ' recent' : '')
-                                    }
+                                    className={`proximity-${g.proximity.replace(' ', '-')}${i === 0 ? ' recent' : ''}`}
                                 >
                                     <td>{g.number}</td>
                                     <td>{g.text}</td>
@@ -238,7 +298,7 @@ function Flicktionary() {
                 <h3>How to play?</h3>
                 <p>The objective is to guess the secret movie.</p>
                 <p>Enter descriptions of movies, and we'll tell you how semantically similar your description is to the secret movie.</p>
-                <p>Unlike traditional movie guessing games, this is about the meaning and themes rather than just the title.</p>
+                <p>You can also try guessing the exact movie title directly!</p>
                 <p>You have unlimited guesses! Good luck!</p>
             </div>
         </div>
