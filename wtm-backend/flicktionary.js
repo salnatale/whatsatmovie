@@ -78,44 +78,40 @@ async function embedText(pc, text) {
 // your existing “getAllMovies” & “selectDailyMovie” unchanged…
 
 async function getAllMovies(pc, index, isCorrect = false, limit = 1000) {
-  console.log(`getAllMovies: querying up to ${limit} movie records…`);
-
+  console.log(`Retrieving up to ${limit} movies (correctOnly: ${isCorrect})...`);
   try {
-    // 1) Get a “dummy” embedding just to drive a full‐scan
-    const embeddingResponse = await embedText(pc, "the");
-    const vector = embeddingResponse["data"][0].values;
-    console.log("Embedding vector length:", vector.length);
+    const allMovies = [];
+    let paginationToken = null;
+    let remaining = limit;
 
-    // 2) Build the query payload
-    const queryParams = {
-      vector: vector,
-      topK: limit,
-      includeMetadata: true,
-      includeValues: false
-    };
+    do {
+      const fetchLimit = Math.min(remaining, 1000);
+      const response = await index.listRecords({
+        limit: fetchLimit,
+        paginationToken,
+        filter: isCorrect ? { isCorrect: { "$eq": true } } : undefined,
+        includeMetadata: true,
+      });
 
-    // 3) If the caller only wants the ones marked correct, add a filter
-    if (isCorrect) {
-      queryParams.filter = {
-        isCorrect: { "$eq": true }
-      };
-      console.log("Applying filter: only metadata.isCorrect === true");
-    }
+      allMovies.push(...response.records);
+      paginationToken = response.paginationToken;
+      remaining -= response.records.length;
 
-    // 4) Run the query
-    console.log("Querying Pinecone index...");
-    const results = await index.query(queryParams);
-    const matches = results.matches || [];
-    console.log(`getAllMovies: retrieved ${matches.length} movie records`);
+      if (response.records.length === 0) break; // No more records to fetch
 
-    // 5) Return just the metadata payloads
-    return matches.map(m => m.metadata);
-  }
-  catch (err) {
-    console.error("getAllMovies: Error fetching all movies:", err);
-    return [];
+    } while (paginationToken && remaining > 0);
+
+    console.log(`Retrieved ${allMovies.length} movies.`);
+    return allMovies;
+
+  } catch (err) {
+    console.error("Critical error fetching records:", err.response?.data || err.message);
+    throw err;
   }
 }
+
+
+
 
 async function selectDailyMovie(pc, index) {
     console.log("selectDailyMovie: fetching all movies to pick today's title…");
