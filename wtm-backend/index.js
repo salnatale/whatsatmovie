@@ -62,15 +62,19 @@ function hasMultipleTitles(inputText) {
 // Function to store movie info and query in vector DB (using Pinecone's auto-embedding)
 async function storeInVectorDB(userQuery, movieDetails) {
     try {
-        const vectors = [];
-
+        // First, collect movies to potentially upsert
+        const movieIdsToCheck = [];
+        const vectorsToUpsert = [];
+        
         for (const movie of movieDetails) {
             if (movie.Response === 'True') {
                 const imdbID = movie.imdbID;
-
-                vectors.push({
+                movieIdsToCheck.push(imdbID);
+                
+                // Prepare the vector data (but don't upsert yet)
+                vectorsToUpsert.push({
                     id: imdbID,
-                    text: `${movie.Title} (${movie.Year}). ${movie.Plot}. Genre: ${movie.Genre || 'N/A'}`, // Top-level
+                    text: `${movie.Title} (${movie.Year}). ${movie.Plot}. Genre: ${movie.Genre || 'N/A'}`,
                     title: movie.Title,
                     year: movie.Year,
                     plot: movie.Plot,
@@ -80,10 +84,35 @@ async function storeInVectorDB(userQuery, movieDetails) {
                 });
             }
         }
-
-        if (vectors.length > 0) {
-            await index.upsertRecords(vectors); // Requires Pinecone >= 3.0.0
-            console.log(`Stored ${vectors.length} movies`);
+        
+        if (movieIdsToCheck.length === 0) return;
+        
+        // Check which records already exist with isCorrect=true
+        let skipIds = new Set();
+        try {
+            const fetchResult = await index.fetch(movieIdsToCheck);
+            console.log("Fetch Result:", fetchResult);
+            // Identify which movies already have isCorrect=true
+            if (fetchResult.records) {
+                console.log("Fetched records:", fetchResult.records);
+                Object.entries(fetchResult.records).forEach(([id, data]) => {
+                    if (data.metadata?.isCorrect === true) {
+                        skipIds.add(id);
+                    }
+                });
+            }
+        } catch (fetchErr) {
+            console.warn(`Warning: couldn't fetch metadata (continuing without skipping): ${fetchErr.message}`);
+        }
+        
+        // Filter out vectors that should be skipped
+        const filteredVectors = vectorsToUpsert.filter(v => !skipIds.has(v.id));
+        
+        if (filteredVectors.length > 0) {
+            await index.upsertRecords(filteredVectors);
+            console.log(`Stored ${filteredVectors.length} movies, skipped ${skipIds.size} with isCorrect=true`);
+        } else {
+            console.log(`Skipped all ${skipIds.size} movies as they already have isCorrect=true`);
         }
     } catch (error) {
         console.error("Vector DB Error:", error);
